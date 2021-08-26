@@ -1,9 +1,7 @@
 package com.telstra.service;
 
 
-import com.telstra.dto.RegisterRequest;
-import com.telstra.dto.SigninRequest;
-import com.telstra.dto.SigninResponse;
+import com.telstra.dto.*;
 import com.telstra.model.User;
 import com.telstra.repository.UserRepository;
 import com.telstra.security.JwtSource;
@@ -29,6 +27,8 @@ public class AuthService {
     AuthenticationManager authenticationManager;
     @Autowired
     JwtSource jwtSource;
+    @Autowired
+    RefreshTokenService refreshTokenService;
 
     @Transactional
     public void signUp(RegisterRequest registerRequest) {
@@ -49,7 +49,9 @@ public class AuthService {
                         signinRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtSource.generateToken(authentication);
-        return new SigninResponse(signinRequest.getUsername(), token);
+        return new SigninResponse(signinRequest.getUsername(),token,
+                refreshTokenService.generateRefreshToken().getToken()
+                ,Instant.now().plusMillis(jwtSource.getJwtExpirationInMillis()).toString());
 
     }
 
@@ -60,4 +62,20 @@ public class AuthService {
         return userRepository.findByUsername(principal.getUsername())
                 .orElseThrow(() -> new RuntimeException("User name not found - " + principal.getUsername()));
     }
+
+    public AuthenticationResponse refreshToken(RefreshTokenRequest refreshTokenRequest) {
+        refreshTokenService.validateRefreshToken(refreshTokenRequest.getRefreshToken());
+        String token = jwtSource.generateTokenWithUserName(refreshTokenRequest.getUsername());
+        return AuthenticationResponse.builder()
+                .authenticationToken(token)
+                .refreshToken(refreshTokenRequest.getRefreshToken())
+                .expiresAt(Instant.now().plusMillis(jwtSource.getJwtExpirationInMillis()))
+                .username(refreshTokenRequest.getUsername())
+                .build();
+    }
+
+//    public boolean isLoggedIn() {
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        return !(authentication instanceof AnonymousAuthenticationToken) && authentication.isAuthenticated();
+//    }
 }

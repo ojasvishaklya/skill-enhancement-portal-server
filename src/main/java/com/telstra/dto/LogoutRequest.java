@@ -1,16 +1,15 @@
 package com.telstra.dto;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SigninResponse {
-    private String username;
-    private String authToken;
+public class LogoutRequest {
+    @NotBlank
     private String refreshToken;
-    private  String expiresAt;
 }

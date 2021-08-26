@@ -42,6 +42,7 @@ public class JwtSource {
                 .setSubject(principal.getUsername())
                 .setIssuedAt(from(Instant.now()))
                 .signWith(getPrivateKey())
+                .setExpiration(Date.from(Instant.now().plusMillis(jwtExpirationInMillis)))
                 .compact();
     }
 
@@ -86,4 +87,7 @@ public class JwtSource {
     }
 
 
+    public long getJwtExpirationInMillis() {
+        return jwtExpirationInMillis;
+    }
 }
