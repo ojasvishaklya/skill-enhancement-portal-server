@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
+import java.time.Instant;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -16,12 +17,13 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Spam {
+public class Notification {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
     @NotNull
-    private Long u_id;   //reporter
+    private String notification;   //notification content
     @NotNull
-    private Long s_id;  //reported
+    private Long userId;  //for whom the notification is meant to be
+    private Instant instant; //time of notification
 }

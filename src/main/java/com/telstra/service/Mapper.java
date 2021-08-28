@@ -3,6 +3,7 @@ package com.telstra.service;
 import com.telstra.dto.CommentResponse;
 import com.telstra.dto.QuestionResponse;
 import com.telstra.dto.UserProfileResponse;
+import com.telstra.dto.UserResponse;
 import com.telstra.model.Comment;
 import com.telstra.model.Question;
 import com.telstra.model.User;
@@ -51,5 +52,14 @@ public class Mapper {
         userProfileResponse.setName(user.getUsername());
         userProfileResponse.setId(user.getUserId());
         return userProfileResponse;
+    }
+
+    public UserResponse mapUserMin(User user) {
+        UserResponse userResponse = new UserResponse();
+
+        userResponse.setEmail(user.getEmail());
+        userResponse.setName(user.getUsername());
+        userResponse.setId(user.getUserId());
+        return userResponse;
     }
 }

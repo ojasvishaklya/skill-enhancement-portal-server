@@ -16,12 +16,12 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Spam {
+public class Followers {
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
     @NotNull
-    private Long u_id;   //reporter
+    private Long followerId;   //reporter
     @NotNull
-    private Long s_id;  //reported
+    private Long userId;  //reported
 }
