@@ -28,6 +28,7 @@ public class Comment {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "userId", referencedColumnName = "userId")
     private User user;
-    @NotEmpty
-    private boolean selected=false;
+    private boolean selected = false;
+    private Integer upVoteCount = 0;
+    private Integer downVoteCount = 0;
 }

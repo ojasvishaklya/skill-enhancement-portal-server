@@ -1,5 +1,6 @@
 package com.telstra.service;
 
+import com.telstra.dto.UserProfileResponse;
 import com.telstra.model.User;
 import com.telstra.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 public class UserService {
@@ -16,6 +16,10 @@ public class UserService {
     UserRepository userRepository;
     @Autowired
     AuthService authService;
+    @Autowired
+    GetterSource getterSource;
+    @Autowired
+    Mapper mapper;
 
     public List<User> getAllUsers() {
         return userRepository.findAll();
@@ -36,5 +40,22 @@ public class UserService {
 //        user.setSpam(spam);
 //        return userRepository.save(user);
 
+    }
+
+    public UserProfileResponse userProfile(Long id) {
+        return mapper.mapUser(userRepository.findById(id).get());
+    }
+
+
+    //Increments users points based on id
+    public String incrementUserPoints(Long id ,Long points){
+        User u=userRepository.findById(id).get();
+        if(u.getPoints()==null){
+            u.setPoints(0L);
+        }
+        u.setPoints(u.getPoints()+points);
+        userRepository.save(u);
+
+        return "User "+u.getUsername()+"'s points got increased by "+points;
     }
 }

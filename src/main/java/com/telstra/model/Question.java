@@ -38,4 +38,5 @@ public class Question {
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "id", referencedColumnName = "id")
     private Tag tag;
+    private boolean enabled;
 }

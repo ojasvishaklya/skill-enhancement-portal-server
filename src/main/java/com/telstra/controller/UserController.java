@@ -1,6 +1,7 @@
 package com.telstra.controller;
 
 
+import com.telstra.dto.UserProfileResponse;
 import com.telstra.model.User;
 import com.telstra.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,17 +20,22 @@ public class UserController {
     UserService userService;
 
     @GetMapping("/users")
-    public List<User> getAllUsers(){
+    public List<User> getAllUsers() {
         return userService.getAllUsers();
     }
 
     @GetMapping("/users/{username}")
-    public Optional<User> findUser(@PathVariable String username){
+    public Optional<User> findUser(@PathVariable String username) {
         return userService.findUser(username);
     }
 
+    @GetMapping("/users/{id}/profile")
+    public UserProfileResponse userProfile(@PathVariable Long id){
+        return userService.userProfile(id);
+    }
+
     @PutMapping("/user/{id}/spam")
-    public User spamUser(@PathVariable Long id){
+    public User spamUser(@PathVariable Long id) {
         return userService.spamUser(id);
     }
 }

@@ -25,7 +25,7 @@ public class TagsController {
     }
 
     @GetMapping("/tags/{id}")
-    public Tag getTagById(@PathVariable Long id){
+    public Tag getTagById(@PathVariable Long id) {
         return tagService.getTagById(id);
     }
 }

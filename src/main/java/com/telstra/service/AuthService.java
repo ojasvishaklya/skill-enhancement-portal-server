@@ -49,9 +49,9 @@ public class AuthService {
                         signinRequest.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtSource.generateToken(authentication);
-        return new SigninResponse(signinRequest.getUsername(),token,
+        return new SigninResponse(signinRequest.getUsername(), token,
                 refreshTokenService.generateRefreshToken().getToken()
-                ,Instant.now().plusMillis(jwtSource.getJwtExpirationInMillis()).toString());
+                , Instant.now().plusMillis(jwtSource.getJwtExpirationInMillis()).toString());
 
     }
 

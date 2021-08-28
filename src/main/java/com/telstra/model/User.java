@@ -7,15 +7,10 @@ import lombok.NoArgsConstructor;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import java.time.Instant;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -36,7 +31,9 @@ public class User {
     private String email;
     private Instant created;
     private boolean enabled;
-//    @OneToMany
-//    private Set<Long> spam;
+    private String gender;
+    private String github;
+    private String linkedin;
+    private Long points; // 10pt per ques. 5pt per comment. 30pt answer selected
 
 }

@@ -1,8 +1,8 @@
 package com.telstra.controller;
 
 
-import com.telstra.dto.QuestionDto;
-import com.telstra.model.Question;
+import com.telstra.dto.QuestionRequest;
+import com.telstra.dto.QuestionResponse;
 import com.telstra.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,19 +14,30 @@ public class QuestionController {
 
     @Autowired
     QuestionService questionService;
-    @PostMapping("/ques")
-    public Question createQuestion(@RequestBody QuestionDto questionDto){
 
-        System.out.println("**************************************");
+    @PostMapping("/ques")
+    public QuestionResponse createQuestion(@RequestBody QuestionRequest questionDto) {
         return questionService.createQuestion(questionDto);
     }
+
     @GetMapping("/ques")
-    public List<Question> getQues(){
+    public List<QuestionResponse> getQues() {
         return questionService.getQues();
     }
+
     @GetMapping("/ques/{id}")
-    public Question getQuesById(@PathVariable Long id){
+    public QuestionResponse getQuesById(@PathVariable Long id) {
         return questionService.getQuesById(id);
+    }
+
+    @PostMapping("/ques/{id}/upvote")
+    public String upVote(@PathVariable Long id) {
+        return questionService.upVote(id);
+    }
+
+    @PostMapping("/ques/{id}/downvote")
+    public String downVote(@PathVariable Long id) {
+        return questionService.downVote(id);
     }
 
 

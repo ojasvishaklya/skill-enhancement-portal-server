@@ -24,10 +24,10 @@ public class TagService {
     public Object createTag(TagDto tagDto) {
         Tag tag = new Tag();
         tag.setName(tagDto.getName());
-        if(tagRepository.findByName(tagDto.getName()).isPresent()){
+        if (tagRepository.findByName(tagDto.getName()).isPresent()) {
             return tagRepository.findByName(tagDto.getName());
         }
-        return  tagRepository.save(tag);
+        return tagRepository.save(tag);
 
     }
 

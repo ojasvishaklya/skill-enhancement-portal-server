@@ -12,5 +12,5 @@ public class SigninResponse {
     private String username;
     private String authToken;
     private String refreshToken;
-    private  String expiresAt;
+    private String expiresAt;
 }
