@@ -1,9 +1,7 @@
 package com.telstra.service;
 
-import com.telstra.dto.CommentResponse;
 import com.telstra.dto.QuestionRequest;
 import com.telstra.dto.QuestionResponse;
-import com.telstra.model.Comment;
 import com.telstra.model.Question;
 import com.telstra.model.Tag;
 import com.telstra.repository.CommentRepository;
@@ -40,7 +38,6 @@ public class QuestionService {
     UserService userService;
 
 
-
     public QuestionResponse createQuestion(QuestionRequest questionDto) {
         Question question = new Question();
 
@@ -61,7 +58,6 @@ public class QuestionService {
         return mapper.mapQuestion(question);
 
     }
-
 
 
     public List<QuestionResponse> getQues() {
@@ -104,12 +100,12 @@ public class QuestionService {
         return "question with title" + question.getPostName() + "downvoted";
     }
 
-    public String deleteQuestion(Long id){
-        Question q=questionRepository.findById(id).get();
-        if(q.getUser().getUserId()!=authService.getCurrentUser().getUserId()){
+    public String deleteQuestion(Long id) {
+        Question q = questionRepository.findById(id).get();
+        if (q.getUser().getUserId() != authService.getCurrentUser().getUserId()) {
             return "you dont have the privledge to delete this question";
         }
         commentRepository.deleteById(q.getPostId());
-        return "This question is deleted by "+ authService.getCurrentUser().getUsername();
+        return "This question is deleted by " + authService.getCurrentUser().getUsername();
     }
 }

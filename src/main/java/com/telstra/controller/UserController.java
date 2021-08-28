@@ -30,7 +30,7 @@ public class UserController {
     }
 
     @GetMapping("/users/{id}/profile")
-    public UserProfileResponse userProfile(@PathVariable Long id){
+    public UserProfileResponse userProfile(@PathVariable Long id) {
         return userService.userProfile(id);
     }
 

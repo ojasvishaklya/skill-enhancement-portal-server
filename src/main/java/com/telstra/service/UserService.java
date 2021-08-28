@@ -48,14 +48,14 @@ public class UserService {
 
 
     //Increments users points based on id
-    public String incrementUserPoints(Long id ,Long points){
-        User u=userRepository.findById(id).get();
-        if(u.getPoints()==null){
+    public String incrementUserPoints(Long id, Long points) {
+        User u = userRepository.findById(id).get();
+        if (u.getPoints() == null) {
             u.setPoints(0L);
         }
-        u.setPoints(u.getPoints()+points);
+        u.setPoints(u.getPoints() + points);
         userRepository.save(u);
 
-        return "User "+u.getUsername()+"'s points got increased by "+points;
+        return "User " + u.getUsername() + "'s points got increased by " + points;
     }
 }

@@ -30,6 +30,7 @@ public class CommentController {
     public String downVote(@PathVariable Long id) {
         return commentService.upVote(id);
     }
+
     @PostMapping("/comment/{id}/select")
     public String selectComment(@PathVariable Long id) {
         return commentService.selectComment(id);

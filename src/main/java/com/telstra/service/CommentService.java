@@ -67,8 +67,8 @@ public class CommentService {
 
 
     public String selectComment(Long id) {
-        Comment c=commentRepository.findById(id).get();
-        if(c.getQuestion().getUser().getUserId()!=authService.getCurrentUser().getUserId()){
+        Comment c = commentRepository.findById(id).get();
+        if (c.getQuestion().getUser().getUserId() != authService.getCurrentUser().getUserId()) {
             return "you dont have the privledge to accept this answer try upvoting it";
         }
         c.setSelected(true);
@@ -76,13 +76,14 @@ public class CommentService {
         userService.incrementUserPoints(authService.getCurrentUser().getUserId(), 50L);
         return "This comment is selected is the accepted answer";
     }
-    public String deleteComment(Long id){
-        Comment c=commentRepository.findById(id).get();
-        if(c.getUser().getUserId()!=authService.getCurrentUser().getUserId()){
+
+    public String deleteComment(Long id) {
+        Comment c = commentRepository.findById(id).get();
+        if (c.getUser().getUserId() != authService.getCurrentUser().getUserId()) {
             return "you dont have the privledge to delete this answer";
         }
         commentRepository.deleteById(c.getId());
-        return "This comment is deleted by "+ authService.getCurrentUser().getUsername();
+        return "This comment is deleted by " + authService.getCurrentUser().getUsername();
     }
 }
 

@@ -1,7 +1,6 @@
 package com.telstra.dto;
 
 
-import com.telstra.model.Comment;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,10 +12,10 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserProfileResponse {
-    private  Long id;
+    private Long id;
 
-    private List<QuestionResponse> questionList=new ArrayList<QuestionResponse>();
-    private List<CommentResponse> commentList=new ArrayList<CommentResponse>();
+    private List<QuestionResponse> questionList = new ArrayList<QuestionResponse>();
+    private List<CommentResponse> commentList = new ArrayList<CommentResponse>();
 
     private Long points;
     private String name;
