@@ -42,7 +42,7 @@ public class AuthService {
     }
 
     @Transactional
-    public SigninResponse singIn(SigninRequest signinRequest) {
+    public SigninResponse signIn(SigninRequest signinRequest) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         signinRequest.getUsername(),

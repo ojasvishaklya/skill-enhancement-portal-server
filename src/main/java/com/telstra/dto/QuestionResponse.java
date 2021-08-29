@@ -19,4 +19,5 @@ public class QuestionResponse {
     private List<CommentResponse> comments = new ArrayList<CommentResponse>();
     private int upvotes;
     private int downvotes;
+    private String creator;
 }

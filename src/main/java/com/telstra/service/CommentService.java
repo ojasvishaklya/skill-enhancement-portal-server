@@ -27,6 +27,8 @@ public class CommentService {
     Mapper mapper;
     @Autowired
     UserService userService;
+    @Autowired
+    NotificationService notificationService;
 
     public CommentResponse createComment(CommentRequest commentRequest) {
         Comment comment = new Comment();
@@ -34,13 +36,16 @@ public class CommentService {
         System.out.println(commentRequest);
         System.out.println("======================================");
         comment.setCreatedDate(Instant.now());
+        comment.setUrl(commentRequest.getUrl());
         comment.setText(commentRequest.getText());
-        comment.setQuestion(questionRepository.findById(2L).get());
+        comment.setQuestion(questionRepository.findById(Long.parseLong(commentRequest.getQ_id())).get());
         comment.setUser(authService.getCurrentUser());
         comment.setDownVoteCount(0);
         comment.setUpVoteCount(0);
         comment = commentRepository.save(comment);
         userService.incrementUserPoints(authService.getCurrentUser().getUserId(), 10L);
+        notificationService.sendNotification(comment.getQuestion().getUser().getUserId(), authService.getCurrentUser().getUsername() + " has posted a comment on your question titled '" +
+                comment.getQuestion().getPostName() + "'.");
         return mapper.mapComment(comment);
 
     }
@@ -73,7 +78,9 @@ public class CommentService {
         }
         c.setSelected(true);
         commentRepository.save(c);
-        userService.incrementUserPoints(authService.getCurrentUser().getUserId(), 50L);
+        userService.incrementUserPoints(c.getUser().getUserId(), 50L);
+        notificationService.sendNotification(c.getUser().getUserId(), authService.getCurrentUser().getUsername() + " selected your comment as an acceptable solution" +
+                " for the problem id " + c.getQuestion().getPostId() + " and you've been awarded 50 Points");
         return "This comment is selected is the accepted answer";
     }
 

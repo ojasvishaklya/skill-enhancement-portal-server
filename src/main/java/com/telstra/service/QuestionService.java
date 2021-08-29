@@ -2,6 +2,7 @@ package com.telstra.service;
 
 import com.telstra.dto.QuestionRequest;
 import com.telstra.dto.QuestionResponse;
+import com.telstra.dto.SearchRequest;
 import com.telstra.model.Question;
 import com.telstra.model.Tag;
 import com.telstra.repository.CommentRepository;
@@ -13,7 +14,6 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 
 
@@ -64,7 +64,11 @@ public class QuestionService {
         List<Question> qList = questionRepository.findAll();
         List<QuestionResponse> sorted = new ArrayList<QuestionResponse>();
 
-        qList.sort(Comparator.comparingInt(Question::getUpVoteCount));
+        qList.sort((a,b)->{
+           a.setUpVoteCount(a.getUpVoteCount()==null?0:a.getUpVoteCount());
+            b.setUpVoteCount(b.getUpVoteCount()==null?0:b.getUpVoteCount());
+            return  b.getUpVoteCount()-a.getUpVoteCount();
+        });
 
         for (int i = 0; i < Math.min(qList.size(), 10); i++) {
             sorted.add(mapper.mapQuestion(qList.get(i)));
@@ -105,7 +109,18 @@ public class QuestionService {
         if (q.getUser().getUserId() != authService.getCurrentUser().getUserId()) {
             return "you dont have the privledge to delete this question";
         }
-        commentRepository.deleteById(q.getPostId());
+        questionRepository.deleteById(q.getPostId());
         return "This question is deleted by " + authService.getCurrentUser().getUsername();
+    }
+
+    public List<Question> searchQuestion(SearchRequest searchRequest) {
+        String[] splited = searchRequest.getText().split("\\s+");
+        String searchQuery="";
+        for(String s: splited){
+            searchQuery+=s+"* ";
+        }
+        searchQuery+=searchRequest.getTag()+"* ";
+
+        return questionRepository.searchQuestion(searchQuery);
     }
 }

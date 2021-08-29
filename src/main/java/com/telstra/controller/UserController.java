@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 public class UserController {
@@ -25,7 +24,7 @@ public class UserController {
     }
 
     @GetMapping("/users/{username}")
-    public Optional<User> findUser(@PathVariable String username) {
+    public UserProfileResponse findUser(@PathVariable String username) {
         return userService.findUser(username);
     }
 
@@ -34,8 +33,4 @@ public class UserController {
         return userService.userProfile(id);
     }
 
-    @PutMapping("/user/{id}/spam")
-    public User spamUser(@PathVariable Long id) {
-        return userService.spamUser(id);
-    }
 }

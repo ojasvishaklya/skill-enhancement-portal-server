@@ -16,4 +16,5 @@ public class CommentResponse {
     private boolean selected;
     private int upvotes;
     private int downvotes;
+    private String creator;
 }

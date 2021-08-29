@@ -7,8 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CommentRequest {
+public class SearchRequest {
     private String text;
-    private String url;
-    private String q_id;
+    private String tag;
 }

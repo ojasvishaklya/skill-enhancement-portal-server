@@ -5,10 +5,7 @@ import com.telstra.dto.CommentRequest;
 import com.telstra.dto.CommentResponse;
 import com.telstra.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class CommentController {
@@ -28,7 +25,7 @@ public class CommentController {
 
     @PostMapping("/comment/{id}/downvote")
     public String downVote(@PathVariable Long id) {
-        return commentService.upVote(id);
+        return commentService.downVote(id);
     }
 
     @PostMapping("/comment/{id}/select")
@@ -36,7 +33,7 @@ public class CommentController {
         return commentService.selectComment(id);
     }
 
-    @PostMapping("/comment/{id}/delete")
+    @DeleteMapping("/comment/{id}")
     public String deleteComment(@PathVariable Long id) {
         return commentService.deleteComment(id);
     }

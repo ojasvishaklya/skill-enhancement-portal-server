@@ -21,11 +21,11 @@ public class TagService {
     TagRepository tagRepository;
 
     @Transactional
-    public Object createTag(TagDto tagDto) {
+    public Tag createTag(TagDto tagDto) {
         Tag tag = new Tag();
         tag.setName(tagDto.getName());
         if (tagRepository.findByName(tagDto.getName()).isPresent()) {
-            return tagRepository.findByName(tagDto.getName());
+            return tagRepository.findByName(tagDto.getName()).get();
         }
         return tagRepository.save(tag);
 

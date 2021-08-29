@@ -31,4 +31,5 @@ public class Comment {
     private boolean selected = false;
     private Integer upVoteCount = 0;
     private Integer downVoteCount = 0;
+    private String url;
 }

@@ -1,6 +1,7 @@
 package com.telstra.service;
 
 import com.telstra.model.Spam;
+import com.telstra.model.User;
 import com.telstra.repository.SpamRepository;
 import com.telstra.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,10 @@ public class SpamService {
         for (Spam s : spams) {
             if (s.getS_id() == id)
                 spamedBy.add(s.getU_id());
+        }
+        if(spamedBy.size()>=20){
+            User u= userRepository.findById(id).get();
+            u.setEnabled(false);
         }
         return spamedBy;
     }

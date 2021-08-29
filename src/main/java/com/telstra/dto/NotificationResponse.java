@@ -7,8 +7,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CommentRequest {
+public class NotificationResponse {
+    private Long id;
     private String text;
-    private String url;
-    private String q_id;
+    private String instant;
 }

@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class UserService {
@@ -25,8 +24,8 @@ public class UserService {
         return userRepository.findAll();
     }
 
-    public Optional<User> findUser(String username) {
-        return userRepository.findByUsername(username);
+    public UserProfileResponse findUser(String username) {
+        return mapper.mapUser(userRepository.findByUsername(username).get());
     }
 
     public User spamUser(Long id) {

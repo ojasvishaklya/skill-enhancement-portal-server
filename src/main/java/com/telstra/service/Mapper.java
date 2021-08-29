@@ -1,10 +1,8 @@
 package com.telstra.service;
 
-import com.telstra.dto.CommentResponse;
-import com.telstra.dto.QuestionResponse;
-import com.telstra.dto.UserProfileResponse;
-import com.telstra.dto.UserResponse;
+import com.telstra.dto.*;
 import com.telstra.model.Comment;
+import com.telstra.model.Notification;
 import com.telstra.model.Question;
 import com.telstra.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +23,7 @@ public class Mapper {
         questionResponse.setDownvotes(question.getDownVoteCount() == null ? 0 : question.getDownVoteCount());
         questionResponse.setUpvotes(question.getUpVoteCount() == null ? 0 : question.getUpVoteCount());
         questionResponse.setId(question.getPostId());
+        questionResponse.setCreator(question.getUser().getUsername());
         return questionResponse;
     }
 
@@ -38,6 +37,7 @@ public class Mapper {
         commentResponse.setDownvotes(comment.getDownVoteCount() == null ? 0 : comment.getDownVoteCount());
         commentResponse.setUpvotes(comment.getUpVoteCount() == null ? 0 : comment.getUpVoteCount());
         commentResponse.setId(comment.getId());
+        commentResponse.setCreator(comment.getUser().getUsername());
         return commentResponse;
     }
 
@@ -61,5 +61,13 @@ public class Mapper {
         userResponse.setName(user.getUsername());
         userResponse.setId(user.getUserId());
         return userResponse;
+    }
+
+    public NotificationResponse mapNotification(Notification n) {
+        NotificationResponse myNotification=new NotificationResponse();
+        myNotification.setId(n.getId());
+        myNotification.setInstant(n.getInstant().toString());
+        myNotification.setText(n.getNotification());
+        return myNotification;
     }
 }
