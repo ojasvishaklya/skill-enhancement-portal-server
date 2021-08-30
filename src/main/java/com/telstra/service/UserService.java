@@ -1,11 +1,13 @@
 package com.telstra.service;
 
 import com.telstra.dto.UserProfileResponse;
+import com.telstra.dto.UserResponse;
 import com.telstra.model.User;
 import com.telstra.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -20,8 +22,12 @@ public class UserService {
     @Autowired
     Mapper mapper;
 
-    public List<User> getAllUsers() {
-        return userRepository.findAll();
+    public List<UserResponse> getAllUsers() {
+        List<User> users=userRepository.findAll();
+        List<UserResponse>userResponses=new ArrayList<UserResponse>();
+        for(User u : users)
+            userResponses.add(mapper.mapUserMin(u));
+        return userResponses;
     }
 
     public UserProfileResponse findUser(String username) {

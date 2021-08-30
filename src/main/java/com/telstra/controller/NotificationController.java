@@ -17,8 +17,9 @@ public class NotificationController {
     public List<NotificationResponse> getSpam(@PathVariable Long id) {
         return notificationService.getNotifications(id);
     }
+
     @DeleteMapping("/notification/{id}")
-    public void deleteNotification(@PathVariable Long id){
+    public void deleteNotification(@PathVariable Long id) {
         notificationService.deleteNotification(id);
     }
 }

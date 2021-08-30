@@ -26,13 +26,14 @@ public class QuestionController {
     public List<QuestionResponse> getQues() {
         return questionService.getQues();
     }
+
     @GetMapping("/ques/{id}")
     public QuestionResponse getQuesById(@PathVariable Long id) {
         return questionService.getQuesById(id);
     }
 
     @GetMapping("/ques/search")
-    public List<Question> searchQuestion(@RequestBody SearchRequest searchRequest){
+    public List<Question> searchQuestion(@RequestBody SearchRequest searchRequest) {
         return questionService.searchQuestion(searchRequest);
     }
 
@@ -47,7 +48,7 @@ public class QuestionController {
     }
 
     @DeleteMapping("/ques/{id}")
-    public String deleteQuestion(@PathVariable Long id){
+    public String deleteQuestion(@PathVariable Long id) {
         return questionService.deleteQuestion(id);
     }
 

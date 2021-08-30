@@ -28,7 +28,7 @@ public class NotificationService {
     Mapper mapper;
 
     public String sendNotification(Long u_id, String message) {
-        Notification notification=new Notification();
+        Notification notification = new Notification();
         notification.setNotification(message);
         notification.setInstant(Instant.now());
         notification.setUserId(u_id);
@@ -46,7 +46,8 @@ public class NotificationService {
         }
         return myNotifications;
     }
-    public void deleteNotification(Long id){
+
+    public void deleteNotification(Long id) {
         notificationRepository.deleteById(id);
     }
 }

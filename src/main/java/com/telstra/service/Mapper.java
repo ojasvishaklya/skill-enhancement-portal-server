@@ -64,7 +64,7 @@ public class Mapper {
     }
 
     public NotificationResponse mapNotification(Notification n) {
-        NotificationResponse myNotification=new NotificationResponse();
+        NotificationResponse myNotification = new NotificationResponse();
         myNotification.setId(n.getId());
         myNotification.setInstant(n.getInstant().toString());
         myNotification.setText(n.getNotification());

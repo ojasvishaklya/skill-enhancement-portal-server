@@ -64,10 +64,10 @@ public class QuestionService {
         List<Question> qList = questionRepository.findAll();
         List<QuestionResponse> sorted = new ArrayList<QuestionResponse>();
 
-        qList.sort((a,b)->{
-           a.setUpVoteCount(a.getUpVoteCount()==null?0:a.getUpVoteCount());
-            b.setUpVoteCount(b.getUpVoteCount()==null?0:b.getUpVoteCount());
-            return  b.getUpVoteCount()-a.getUpVoteCount();
+        qList.sort((a, b) -> {
+            a.setUpVoteCount(a.getUpVoteCount() == null ? 0 : a.getUpVoteCount());
+            b.setUpVoteCount(b.getUpVoteCount() == null ? 0 : b.getUpVoteCount());
+            return b.getUpVoteCount() - a.getUpVoteCount();
         });
 
         for (int i = 0; i < Math.min(qList.size(), 10); i++) {
@@ -115,11 +115,11 @@ public class QuestionService {
 
     public List<Question> searchQuestion(SearchRequest searchRequest) {
         String[] splited = searchRequest.getText().split("\\s+");
-        String searchQuery="";
-        for(String s: splited){
-            searchQuery+=s+"* ";
+        String searchQuery = "";
+        for (String s : splited) {
+            searchQuery += s + "* ";
         }
-        searchQuery+=searchRequest.getTag()+"* ";
+        searchQuery += searchRequest.getTag() + "* ";
 
         return questionRepository.searchQuestion(searchQuery);
     }

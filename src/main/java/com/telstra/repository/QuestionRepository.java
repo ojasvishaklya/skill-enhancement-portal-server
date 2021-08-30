@@ -15,7 +15,7 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
 
     @Modifying
     @Transactional
-    @Query(value = "SELECT * from `skill-enhancement-portal`.question where match(post_name) against (?1 in boolean mode)",nativeQuery = true)
+    @Query(value = "SELECT * from `skill-enhancement-portal`.question where match(post_name) against (?1 in boolean mode)", nativeQuery = true)
     public List<Question> searchQuestion(String query);
 
 }

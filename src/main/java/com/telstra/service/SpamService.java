@@ -37,8 +37,8 @@ public class SpamService {
             if (s.getS_id() == id)
                 spamedBy.add(s.getU_id());
         }
-        if(spamedBy.size()>=20){
-            User u= userRepository.findById(id).get();
+        if (spamedBy.size() >= 20) {
+            User u = userRepository.findById(id).get();
             u.setEnabled(false);
         }
         return spamedBy;
