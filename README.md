@@ -2,7 +2,7 @@
 # Project Title
 
 This is the backend for Skill Enhancement Portal project.
-A brief description of the avaialable APIs.
+A brief description of the available APIs.
 
 
 
@@ -97,7 +97,7 @@ A brief description of the avaialable APIs.
 | :-------- | :------- | :------------------------- |
 | `user_id` | `Long` | **Required**. User id to mark user as spam|
 
-#### Mark User Spam Count
+#### Get User Spam Count
 
 ```http
   POST /spam/{user_id}/
