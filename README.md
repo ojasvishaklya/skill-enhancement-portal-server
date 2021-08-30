@@ -1,5 +1,5 @@
 
-# Project Title
+# Skill Enhancement Portal Telstra
 
 This is the backend for Skill Enhancement Portal project.
 A brief description of the available APIs.
