@@ -42,6 +42,7 @@ public class CommentService {
         comment.setUser(authService.getCurrentUser());
         comment.setDownVoteCount(0);
         comment.setUpVoteCount(0);
+        comment.setUrl(commentRequest.getUrl());
         comment = commentRepository.save(comment);
         userService.incrementUserPoints(authService.getCurrentUser().getUserId(), 10L);
         notificationService.sendNotification(comment.getQuestion().getUser().getUserId(), authService.getCurrentUser().getUsername() + " has posted a comment on your question titled '" +
@@ -81,7 +82,7 @@ public class CommentService {
         userService.incrementUserPoints(c.getUser().getUserId(), 50L);
         notificationService.sendNotification(c.getUser().getUserId(), authService.getCurrentUser().getUsername() + " selected your comment as an acceptable solution" +
                 " for the problem id " + c.getQuestion().getPostId() + " and you've been awarded 50 Points");
-        return "This comment is selected is the accepted answer";
+        return "This comment as selected is the accepted answer";
     }
 
     public String deleteComment(Long id) {

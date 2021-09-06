@@ -47,6 +47,7 @@ public class QuestionService {
         question.setUser(authService.getCurrentUser());
         question.setDownVoteCount(0);
         question.setUpVoteCount(0);
+        question.setUrl(questionDto.getUrl());
         Tag newTag = (Tag) tagService.createTag(questionDto.getTag());
 
         question.setTag(newTag);
