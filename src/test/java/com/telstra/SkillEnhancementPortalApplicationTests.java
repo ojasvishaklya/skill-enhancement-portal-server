@@ -41,5 +41,36 @@ class SkillEnhancementPortalApplicationTests {
         User u = userRepository.findById(1L).get();
         assertEquals("ojasvishaklya@gmail.com", u.getEmail());
     }
+@Autowired
+    TagRepository tagRepository;
+    @Test
+    @Order(4)
+    public void testFindByTagName(){
+        String tag ="Css";
+         Tag t = tagRepository.findByName(tag).get();
+        assertEquals(tag,t.getName());
 
+
+    }
+
+    @Test
+    @Order(5)
+    public void testReadAllTag () {
+        List list = tagRepository.findAll();
+        assertEquals(true,(list).size()>(0));
+    }
+@Autowired
+    QuestionRepository questionRepository;
+    @Test
+    @Order(6)
+    public void testReadAllQuestion (){
+        List list = questionRepository.findAll();
+        assertEquals(true,(list).size()>(0));
+    }
+    @Test
+    @Order(7)
+    public void testFindByQuestionId () {
+        Question question = questionRepository.findById(1L).get();
+        assertEquals("Ojasvi",question.getPostName());
+    }
 }
