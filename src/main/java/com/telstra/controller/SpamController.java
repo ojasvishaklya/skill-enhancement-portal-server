@@ -15,9 +15,9 @@ public class SpamController {
     @Autowired
     SpamService spamService;
 
-    @PostMapping("/spam/{s_id}")
-    public String reportSpam(@PathVariable Long s_id) {
-        return spamService.reportSpam(s_id);
+    @PostMapping("/spam/{sId}")
+    public String reportSpam(@PathVariable Long sId) {
+        return spamService.reportSpam(sId);
     }
 
     @GetMapping("/spam/{id}")

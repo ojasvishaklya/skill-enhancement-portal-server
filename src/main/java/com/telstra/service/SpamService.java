@@ -5,6 +5,7 @@ import com.telstra.model.User;
 import com.telstra.repository.SpamRepository;
 import com.telstra.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -31,14 +32,16 @@ public class SpamService {
     }
 
     public List<Long> getSpam(Long id) {
-        List<Long> spamedBy = new ArrayList<Long>();
+        List<Long> spamedBy = new ArrayList<>();
         List<Spam> spams = spamRepository.findAll();
         for (Spam s : spams) {
-            if (s.getS_id() == id)
+            if (s.getS_id().equals(id))
                 spamedBy.add(s.getU_id());
         }
         if (spamedBy.size() >= 20) {
-            User u = userRepository.findById(id).get();
+            User u = userRepository.findById(id).orElseThrow(
+                    ()->new UsernameNotFoundException("No user found with id : "+id)
+            );
             u.setEnabled(false);
         }
         return spamedBy;

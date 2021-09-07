@@ -21,7 +21,7 @@ public class TagsController {
 
     @PostMapping("/tags")
     public Tag createTag(@RequestBody TagDto tag) {
-        return (Tag) tagService.createTag(tag);
+        return tagService.createTag(tag);
     }
 
     @GetMapping("/tags/{id}")

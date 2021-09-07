@@ -5,6 +5,7 @@ import com.telstra.model.Followers;
 import com.telstra.repository.FollowersRepository;
 import com.telstra.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -24,7 +25,7 @@ public class FollowersService {
     Mapper mapper;
 
     public String follow(Long s_id) {
-        if (s_id == authService.getCurrentUser().getUserId()) {
+        if (s_id.equals(authService.getCurrentUser().getUserId())) {
             return "cant follow yourself";
         }
         if (checkIfFollowing(authService.getCurrentUser().getUserId(), s_id)) {
@@ -41,7 +42,7 @@ public class FollowersService {
     private boolean checkIfFollowing(Long myId, Long userId) {
         List<Followers> followers = followersRepository.findAll();
         for (Followers s : followers) {
-            if (s.getFollowerId() == myId && s.getUserId() == userId) {
+            if (s.getFollowerId().equals(myId) && s.getUserId().equals(userId)) {
                 return true;
             }
         }
@@ -49,21 +50,25 @@ public class FollowersService {
     }
 
     public List<UserResponse> getFollowers(Long id) {
-        List<UserResponse> followedBy = new ArrayList<UserResponse>();
+        List<UserResponse> followedBy = new ArrayList<>();
         List<Followers> followers = followersRepository.findAll();
         for (Followers s : followers) {
-            if (s.getUserId() == id)
-                followedBy.add(mapper.mapUserMin(userRepository.findById(s.getFollowerId()).get()));
+            if (s.getUserId().equals(id))
+                followedBy.add(mapper.mapUserMin(userRepository.findById(s.getFollowerId()).orElseThrow(
+                        ()->new UsernameNotFoundException("User not found")
+                )));
         }
         return followedBy;
     }
 
     public List<UserResponse> getFollowing(Long id) {
-        List<UserResponse> follows = new ArrayList<UserResponse>();
+        List<UserResponse> follows = new ArrayList<>();
         List<Followers> followers = followersRepository.findAll();
         for (Followers s : followers) {
-            if (s.getFollowerId() == id)
-                follows.add(mapper.mapUserMin(userRepository.findById(s.getUserId()).get()));
+            if (s.getFollowerId().equals(id))
+                follows.add(mapper.mapUserMin(userRepository.findById(s.getUserId()).orElseThrow(
+                        ()-> new UsernameNotFoundException("No such user found")
+                )));
         }
         return follows;
     }

@@ -16,9 +16,9 @@ public class FollowersController {
     @Autowired
     FollowersService followersService;
 
-    @PostMapping("/follow/{s_id}")
-    public String follow(@PathVariable Long s_id) {
-        return followersService.follow(s_id);
+    @PostMapping("/follow/{sId}")
+    public String follow(@PathVariable Long sId) {
+        return followersService.follow(sId);
     }
 
     @GetMapping("/followers/{id}")

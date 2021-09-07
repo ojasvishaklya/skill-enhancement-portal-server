@@ -5,6 +5,7 @@ import com.telstra.dto.UserResponse;
 import com.telstra.model.User;
 import com.telstra.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -24,37 +25,31 @@ public class UserService {
 
     public List<UserResponse> getAllUsers() {
         List<User> users=userRepository.findAll();
-        List<UserResponse>userResponses=new ArrayList<UserResponse>();
+        List<UserResponse>userResponses=new ArrayList<>();
         for(User u : users)
             userResponses.add(mapper.mapUserMin(u));
         return userResponses;
     }
 
     public UserProfileResponse findUser(String username) {
-        return mapper.mapUser(userRepository.findByUsername(username).get());
+        return mapper.mapUser(userRepository.findByUsername(username).orElseThrow(
+                ()-> new UsernameNotFoundException("No user found with username : "+username)
+        ));
     }
 
-    public User spamUser(Long id) {
-        return userRepository.findById(id).get();
-//        User user= userRepository.findById(id).get();
-//        Set<Long> spam=user.getSpam();
-//        spam.add(authService.getCurrentUser().getUserId());
-//        if(spam.size()>=30){
-//            user.setEnabled(false);
-//        }
-//        user.setSpam(spam);
-//        return userRepository.save(user);
-
-    }
 
     public UserProfileResponse userProfile(Long id) {
-        return mapper.mapUser(userRepository.findById(id).get());
+        return mapper.mapUser(userRepository.findById(id).orElseThrow(
+                ()-> new UsernameNotFoundException("No user found with id : "+id)
+        ));
     }
 
 
     //Increments users points based on id
     public String incrementUserPoints(Long id, Long points) {
-        User u = userRepository.findById(id).get();
+        User u = userRepository.findById(id).orElseThrow(
+                ()-> new UsernameNotFoundException("No user found with id : "+id)
+        );
         if (u.getPoints() == null) {
             u.setPoints(0L);
         }

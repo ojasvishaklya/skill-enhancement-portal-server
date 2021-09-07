@@ -3,6 +3,7 @@ package com.telstra.service;
 import com.telstra.dto.QuestionRequest;
 import com.telstra.dto.QuestionResponse;
 import com.telstra.dto.SearchRequest;
+import com.telstra.exceptions.EntityNotFoundException;
 import com.telstra.model.Question;
 import com.telstra.model.Tag;
 import com.telstra.repository.CommentRepository;
@@ -37,7 +38,7 @@ public class QuestionService {
     @Autowired
     UserService userService;
 
-
+    String questionNotFound="No question found with that id : ";
     public QuestionResponse createQuestion(QuestionRequest questionDto) {
         Question question = new Question();
 
@@ -48,7 +49,7 @@ public class QuestionService {
         question.setDownVoteCount(0);
         question.setUpVoteCount(0);
         question.setUrl(questionDto.getUrl());
-        Tag newTag = (Tag) tagService.createTag(questionDto.getTag());
+        Tag newTag = tagService.createTag(questionDto.getTag());
 
         question.setTag(newTag);
 
@@ -63,7 +64,7 @@ public class QuestionService {
 
     public List<QuestionResponse> getQues() {
         List<Question> qList = questionRepository.findAll();
-        List<QuestionResponse> sorted = new ArrayList<QuestionResponse>();
+        List<QuestionResponse> sorted = new ArrayList<>();
 
         qList.sort((a, b) -> {
             a.setUpVoteCount(a.getUpVoteCount() == null ? 0 : a.getUpVoteCount());
@@ -79,14 +80,18 @@ public class QuestionService {
     }
 
     public QuestionResponse getQuesById(Long id) {
-        Question question = questionRepository.findById(id).get();
+        Question question = questionRepository.findById(id).orElseThrow(
+                ()-> new EntityNotFoundException("" + id)
+        );
         QuestionResponse myQuestion = mapper.mapQuestion(question);
         myQuestion.setComments(getterSource.getQuestionComments(question.getPostId()));
         return myQuestion;
     }
 
     public String upVote(Long id) {
-        Question question = questionRepository.findById(id).get();
+        Question question = questionRepository.findById(id).orElseThrow(
+                ()-> new EntityNotFoundException(questionNotFound+id)
+        );
         if (question.getUpVoteCount() == null) {
             question.setUpVoteCount(0);
         }
@@ -96,7 +101,9 @@ public class QuestionService {
     }
 
     public String downVote(Long id) {
-        Question question = questionRepository.findById(id).get();
+        Question question = questionRepository.findById(id).orElseThrow(
+                ()-> new EntityNotFoundException(questionNotFound + id)
+        );
         if (question.getDownVoteCount() == null) {
             question.setDownVoteCount(0);
         }
@@ -106,8 +113,10 @@ public class QuestionService {
     }
 
     public String deleteQuestion(Long id) {
-        Question q = questionRepository.findById(id).get();
-        if (q.getUser().getUserId() != authService.getCurrentUser().getUserId()) {
+        Question q = questionRepository.findById(id).orElseThrow(
+                ()-> new EntityNotFoundException(questionNotFound + id)
+        );
+        if (!q.getUser().getUserId().equals(authService.getCurrentUser().getUserId())) {
             return "you dont have the privledge to delete this question";
         }
         questionRepository.deleteById(q.getPostId());

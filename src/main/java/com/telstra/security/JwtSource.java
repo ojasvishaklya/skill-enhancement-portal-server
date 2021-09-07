@@ -1,6 +1,7 @@
 package com.telstra.security;
 
 
+import com.telstra.exceptions.AuthenticationException;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,7 +13,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.security.*;
 import java.security.cert.CertificateException;
-import java.sql.Date;
 import java.time.Instant;
 
 import static io.jsonwebtoken.Jwts.parser;
@@ -31,7 +31,7 @@ public class JwtSource {
             InputStream resourceAsStream = getClass().getResourceAsStream("/springblog.jks");
             keyStore.load(resourceAsStream, "secret".toCharArray());
         } catch (KeyStoreException | CertificateException | NoSuchAlgorithmException | IOException e) {
-            throw new RuntimeException(e);
+            throw new AuthenticationException("key not found",e);
         }
 
     }
@@ -42,7 +42,7 @@ public class JwtSource {
                 .setSubject(principal.getUsername())
                 .setIssuedAt(from(Instant.now()))
                 .signWith(getPrivateKey())
-                .setExpiration(Date.from(Instant.now().plusMillis(jwtExpirationInMillis)))
+                .setExpiration(java.util.Date.from(Instant.now().plusMillis(jwtExpirationInMillis)))
                 .compact();
     }
 
@@ -58,7 +58,7 @@ public class JwtSource {
         try {
             return (PrivateKey) keyStore.getKey("springblog", "secret".toCharArray());
         } catch (KeyStoreException | NoSuchAlgorithmException | UnrecoverableKeyException e) {
-            throw new RuntimeException("Exception occured while retrieving public key from keystore", e);
+            throw new AuthenticationException("Exception occured while retrieving public key from keystore", e);
         }
     }
 
@@ -67,7 +67,7 @@ public class JwtSource {
         try {
             return keyStore.getCertificate("springblog").getPublicKey();
         } catch (KeyStoreException e) {
-            throw new RuntimeException("Exception occured while " +
+            throw new AuthenticationException("Exception occured while " +
                     "retrieving public key from keystore", e);
         }
     }

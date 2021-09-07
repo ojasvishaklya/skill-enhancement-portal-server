@@ -2,6 +2,7 @@ package com.telstra.service;
 
 
 import com.telstra.dto.TagDto;
+import com.telstra.exceptions.EntityNotFoundException;
 import com.telstra.model.Tag;
 import com.telstra.repository.TagRepository;
 import lombok.AllArgsConstructor;
@@ -25,7 +26,9 @@ public class TagService {
         Tag tag = new Tag();
         tag.setName(tagDto.getName());
         if (tagRepository.findByName(tagDto.getName()).isPresent()) {
-            return tagRepository.findByName(tagDto.getName()).get();
+            return tagRepository.findByName(tagDto.getName()).orElseThrow(
+                    ()-> new EntityNotFoundException("No tag found with name : "+tagDto.getName())
+            );
         }
         return tagRepository.save(tag);
 
@@ -38,6 +41,8 @@ public class TagService {
 
     @Transactional
     public Tag getTagById(Long id) {
-        return tagRepository.findById(id).get();
+        return tagRepository.findById(id).orElseThrow(
+                ()->new EntityNotFoundException("No tag found with id : "+id)
+        );
     }
 }

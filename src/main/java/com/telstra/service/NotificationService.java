@@ -2,10 +2,7 @@ package com.telstra.service;
 
 import com.telstra.dto.NotificationResponse;
 import com.telstra.model.Notification;
-import com.telstra.model.Spam;
-import com.telstra.model.User;
 import com.telstra.repository.NotificationRepository;
-import com.telstra.repository.SpamRepository;
 import com.telstra.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,10 +35,10 @@ public class NotificationService {
     }
 
     public List<NotificationResponse> getNotifications(Long id) {
-        List<NotificationResponse> myNotifications = new ArrayList<NotificationResponse>();
+        List<NotificationResponse> myNotifications = new ArrayList<>();
         List<Notification> notifications = notificationRepository.findAll();
         for (Notification n : notifications) {
-            if (n.getUserId() == id)
+            if (n.getUserId().equals(id))
                 myNotifications.add(mapper.mapNotification(n));
         }
         return myNotifications;

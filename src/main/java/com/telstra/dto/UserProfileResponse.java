@@ -14,8 +14,8 @@ import java.util.List;
 public class UserProfileResponse {
     private Long id;
 
-    private List<QuestionResponse> questionList = new ArrayList<QuestionResponse>();
-    private List<CommentResponse> commentList = new ArrayList<CommentResponse>();
+    private List<QuestionResponse> questionList = new ArrayList<>();
+    private List<CommentResponse> commentList = new ArrayList<>();
 
     private Long points;
     private String name;
