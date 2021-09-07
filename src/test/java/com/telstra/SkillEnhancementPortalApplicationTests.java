@@ -41,7 +41,7 @@ class SkillEnhancementPortalApplicationTests {
         User u = userRepository.findById(1L).get();
         assertEquals("ojasvishaklya@gmail.com", u.getEmail());
     }
-@Autowired
+    @Autowired
     TagRepository tagRepository;
     @Test
     @Order(4)
@@ -59,7 +59,7 @@ class SkillEnhancementPortalApplicationTests {
         List list = tagRepository.findAll();
         assertEquals(true,(list).size()>(0));
     }
-@Autowired
+    @Autowired
     QuestionRepository questionRepository;
     @Test
     @Order(6)
