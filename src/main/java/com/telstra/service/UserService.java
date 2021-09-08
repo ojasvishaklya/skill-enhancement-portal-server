@@ -24,23 +24,23 @@ public class UserService {
     Mapper mapper;
 
     public List<UserResponse> getAllUsers() {
-        List<User> users=userRepository.findAll();
-        List<UserResponse>userResponses=new ArrayList<>();
-        for(User u : users)
+        List<User> users = userRepository.findAll();
+        List<UserResponse> userResponses = new ArrayList<>();
+        for (User u : users)
             userResponses.add(mapper.mapUserMin(u));
         return userResponses;
     }
 
     public UserProfileResponse findUser(String username) {
         return mapper.mapUser(userRepository.findByUsername(username).orElseThrow(
-                ()-> new UsernameNotFoundException("No user found with username : "+username)
+                () -> new UsernameNotFoundException("No user found with username : " + username)
         ));
     }
 
 
     public UserProfileResponse userProfile(Long id) {
         return mapper.mapUser(userRepository.findById(id).orElseThrow(
-                ()-> new UsernameNotFoundException("No user found with id : "+id)
+                () -> new UsernameNotFoundException("No user found with id : " + id)
         ));
     }
 
@@ -48,7 +48,7 @@ public class UserService {
     //Increments users points based on id
     public String incrementUserPoints(Long id, Long points) {
         User u = userRepository.findById(id).orElseThrow(
-                ()-> new UsernameNotFoundException("No user found with id : "+id)
+                () -> new UsernameNotFoundException("No user found with id : " + id)
         );
         if (u.getPoints() == null) {
             u.setPoints(0L);

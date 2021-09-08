@@ -38,7 +38,8 @@ public class QuestionService {
     @Autowired
     UserService userService;
 
-    String questionNotFound="No question found with that id : ";
+    String questionNotFound = "No question found with that id : ";
+
     public QuestionResponse createQuestion(QuestionRequest questionDto) {
         Question question = new Question();
 
@@ -81,7 +82,7 @@ public class QuestionService {
 
     public QuestionResponse getQuesById(Long id) {
         Question question = questionRepository.findById(id).orElseThrow(
-                ()-> new EntityNotFoundException("" + id)
+                () -> new EntityNotFoundException("" + id)
         );
         QuestionResponse myQuestion = mapper.mapQuestion(question);
         myQuestion.setComments(getterSource.getQuestionComments(question.getPostId()));
@@ -90,7 +91,7 @@ public class QuestionService {
 
     public String upVote(Long id) {
         Question question = questionRepository.findById(id).orElseThrow(
-                ()-> new EntityNotFoundException(questionNotFound+id)
+                () -> new EntityNotFoundException(questionNotFound + id)
         );
         if (question.getUpVoteCount() == null) {
             question.setUpVoteCount(0);
@@ -102,7 +103,7 @@ public class QuestionService {
 
     public String downVote(Long id) {
         Question question = questionRepository.findById(id).orElseThrow(
-                ()-> new EntityNotFoundException(questionNotFound + id)
+                () -> new EntityNotFoundException(questionNotFound + id)
         );
         if (question.getDownVoteCount() == null) {
             question.setDownVoteCount(0);
@@ -114,7 +115,7 @@ public class QuestionService {
 
     public String deleteQuestion(Long id) {
         Question q = questionRepository.findById(id).orElseThrow(
-                ()-> new EntityNotFoundException(questionNotFound + id)
+                () -> new EntityNotFoundException(questionNotFound + id)
         );
         if (!q.getUser().getUserId().equals(authService.getCurrentUser().getUserId())) {
             return "you dont have the privledge to delete this question";

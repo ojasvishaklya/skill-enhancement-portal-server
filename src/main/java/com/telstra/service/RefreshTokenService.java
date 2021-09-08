@@ -26,7 +26,7 @@ public class RefreshTokenService {
     }
 
     RefreshToken validateRefreshToken(String token) {
-      return  refreshTokenRepository.findByToken(token)
+        return refreshTokenRepository.findByToken(token)
                 .orElseThrow(() -> new RuntimeException("Invalid refresh Token"));
     }
 

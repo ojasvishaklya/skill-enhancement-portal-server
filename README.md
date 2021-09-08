@@ -1,10 +1,6 @@
-
 # Skill Enhancement Portal Telstra
 
-This is the backend for Skill Enhancement Portal project.
-A brief description of the available APIs.
-
-
+This is the backend for Skill Enhancement Portal project. A brief description of the available APIs.
 
 ## Authentication API Reference
 
@@ -43,7 +39,6 @@ A brief description of the available APIs.
 | Parameter | Type     | Description                |
 | :-------- | :------- | :------------------------- |
 | `refreshToken` | `string` | **Required**. Refresh token provided while sign in |
-
 
 ## Users API Reference
 
@@ -107,7 +102,6 @@ A brief description of the available APIs.
 | :-------- | :------- | :------------------------- |
 | `user_id` | `Long` | **Required**. Get total number of spam reports of a user|
 
-
 #### Get User Notifications
 
 ```http
@@ -134,6 +128,7 @@ A brief description of the available APIs.
 | `tag` | `Tag` |**Required**. Appropriate tag/category for the question |
 
 ##### Tag
+
 | Parameter | Type     | Description                |
 | :-------- | :------- | :------------------------- |
 | `name` | `string` | **Required**. Name of the tag|
@@ -154,6 +149,7 @@ A brief description of the available APIs.
 ```http
   POST /ques/{question_id}/upvote
 ```
+
 ```http
   POST /ques/{question_id}/downvote
 ```
@@ -167,12 +163,15 @@ A brief description of the available APIs.
 ```http
   GET /ques/
 ```
+
 Lists the top 10 trending question based on the number of comments and number of upvotes.
+
 #### Delete a Question (Only Owner)
 
 ```http
   DELETE /ques/{question_id}
 ```
+
 | Parameter | Type     | Description                |
 | :-------- | :------- | :------------------------- |
 | `question_id` | `string` | **Required**. Id of the question to be deleted|
@@ -196,6 +195,7 @@ Lists the top 10 trending question based on the number of comments and number of
 ```http
   POST /comment/{comment_id}/upvote
 ```
+
 ```http
   POST /comment/{comment_id}/downvote
 ```
@@ -205,9 +205,11 @@ Lists the top 10 trending question based on the number of comments and number of
 | `comment_id` | `string` | **Required**. Id of the comment to vote for|
 
 #### Select Comment as Answer (Only for question owner)
+
 ```http
   POST /comment/{comment_id}/select
 ```
+
 The owner of the question can select a particular comment as an acceptable solution to the question.
 
 #### Delete a Comment (Only Owner)
@@ -215,26 +217,24 @@ The owner of the question can select a particular comment as an acceptable solut
 ```http
   DELETE /comment/{comment_id}
 ```
+
 | Parameter | Type     | Description                |
 | :-------- | :------- | :------------------------- |
 | `comment_id` | `string` | **Required**. Id of the comment to be deleted|
-
 
 ## Features
 
 - Users can follow each other
 - Users get point for commenting, creating a question and getting there comment selected as answer.
-- Users can mark another user as spam and if the spam count for a particular goes above 20 that user wont be able to access his/her account
+- Users can mark another user as spam and if the spam count for a particular goes above 20 that user wont be able to
+  access his/her account
 - Full text search implemented to make question searching easier.
-
 
 ## MySQl Tables
 
 ![App Screenshot](https://drive.google.com/uc?export=view&id=1ifKmqQpK_g6U1y-vV7WgOcQGCcSuS0W7)
 
 [comment]: <> (<img src="https://drive.google.com/uc?export=view&id=1ifKmqQpK_g6U1y-vV7WgOcQGCcSuS0W7" alt="alt text" width="600px" height="400px">)
-
-
 
 ## Tech Stack
 

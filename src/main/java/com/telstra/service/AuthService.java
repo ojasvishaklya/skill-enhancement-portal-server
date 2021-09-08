@@ -31,7 +31,10 @@ public class AuthService {
     RefreshTokenService refreshTokenService;
 
     @Transactional
-    public void signUp(RegisterRequest registerRequest) {
+    public String signUp(RegisterRequest registerRequest) {
+        if (userRepository.existsByEmail(registerRequest.getEmail())) {
+            return "Email already exists";
+        }
         User user = new User();
         user.setEmail(registerRequest.getEmail());
         user.setCreated(Instant.now());
@@ -39,27 +42,39 @@ public class AuthService {
         user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
         user.setEnabled(true);
         userRepository.save(user);
+        return "User Created Successfully";
     }
 
     @Transactional
     public SigninResponse signIn(SigninRequest signinRequest) {
+
+        System.out.println("1");
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        signinRequest.getUsername(),
-                        signinRequest.getPassword()));
+                        signinRequest.getEmail(),
+                        signinRequest.getPassword()
+                )
+        );
+
+        System.out.println("2");
         SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        System.out.println("3");
         String token = jwtSource.generateToken(authentication);
-        return new SigninResponse(signinRequest.getUsername(), token,
+
+        System.out.println("4");
+        return new SigninResponse(signinRequest.getEmail(), token,
                 refreshTokenService.generateRefreshToken().getToken()
                 , Instant.now().plusMillis(jwtSource.getJwtExpirationInMillis()).toString());
 
     }
 
+
     @Transactional
     public User getCurrentUser() {
         org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) SecurityContextHolder.
                 getContext().getAuthentication().getPrincipal();
-        return userRepository.findByUsername(principal.getUsername())
+        return userRepository.findByEmail(principal.getUsername())
                 .orElseThrow(() -> new RuntimeException("User name not found - " + principal.getUsername()));
     }
 

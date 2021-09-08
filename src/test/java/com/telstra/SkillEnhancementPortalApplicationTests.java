@@ -1,6 +1,10 @@
 package com.telstra;
 
+import com.telstra.model.Question;
+import com.telstra.model.Tag;
 import com.telstra.model.User;
+import com.telstra.repository.QuestionRepository;
+import com.telstra.repository.TagRepository;
 import com.telstra.repository.UserRepository;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
@@ -11,7 +15,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
@@ -22,55 +27,59 @@ class SkillEnhancementPortalApplicationTests {
 
     @Test
     @Order(1)
-    public void testFindByUsername () {
-        String username="ojasvi";
+    public void testFindByUsername() {
+        String username = "ojasvi";
         User p = userRepository.findByUsername(username).get();
-        assertEquals(username,p.getUsername());
+        assertEquals(username, p.getUsername());
     }
 
     @Test
     @Order(2)
-    public void testReadAll () {
+    public void testReadAll() {
         List list = userRepository.findAll();
-        assertEquals(true,(list).size()>(0));
+        assertEquals(true, (list).size() > (0));
     }
 
     @Test
     @Order(3)
-    public void testFindById () {
+    public void testFindById() {
         User u = userRepository.findById(1L).get();
         assertEquals("ojasvishaklya@gmail.com", u.getEmail());
     }
+
     @Autowired
     TagRepository tagRepository;
+
     @Test
     @Order(4)
-    public void testFindByTagName(){
-        String tag ="Css";
-         Tag t = tagRepository.findByName(tag).get();
-        assertEquals(tag,t.getName());
+    public void testFindByTagId() {
+        Long tag = 4L;
+        Tag t = tagRepository.findById(tag).get();
+        assertNotNull(t.getName());
 
 
     }
 
     @Test
     @Order(5)
-    public void testReadAllTag () {
+    public void testReadAllTag() {
         List list = tagRepository.findAll();
-        assertEquals(true,(list).size()>(0));
+        assertEquals(true, (list).size() > (0));
     }
+
     @Autowired
     QuestionRepository questionRepository;
+
     @Test
     @Order(6)
-    public void testReadAllQuestion (){
+    public void testReadAllQuestion() {
         List list = questionRepository.findAll();
-        assertEquals(true,(list).size()>(0));
+        assertEquals(true, (list).size() > (0));
     }
+
     @Test
     @Order(7)
-    public void testFindByQuestionId () {
-        Question question = questionRepository.findById(1L).get();
-        assertEquals("Ojasvi",question.getPostName());
+    public void testFindByQuestionId() {
+        Question question = questionRepository.findById(4L).get();
     }
 }

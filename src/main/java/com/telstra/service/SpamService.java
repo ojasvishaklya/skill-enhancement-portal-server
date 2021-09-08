@@ -40,7 +40,7 @@ public class SpamService {
         }
         if (spamedBy.size() >= 20) {
             User u = userRepository.findById(id).orElseThrow(
-                    ()->new UsernameNotFoundException("No user found with id : "+id)
+                    () -> new UsernameNotFoundException("No user found with id : " + id)
             );
             u.setEnabled(false);
         }

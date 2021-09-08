@@ -55,7 +55,7 @@ public class FollowersService {
         for (Followers s : followers) {
             if (s.getUserId().equals(id))
                 followedBy.add(mapper.mapUserMin(userRepository.findById(s.getFollowerId()).orElseThrow(
-                        ()->new UsernameNotFoundException("User not found")
+                        () -> new UsernameNotFoundException("User not found")
                 )));
         }
         return followedBy;
@@ -67,7 +67,7 @@ public class FollowersService {
         for (Followers s : followers) {
             if (s.getFollowerId().equals(id))
                 follows.add(mapper.mapUserMin(userRepository.findById(s.getUserId()).orElseThrow(
-                        ()-> new UsernameNotFoundException("No such user found")
+                        () -> new UsernameNotFoundException("No such user found")
                 )));
         }
         return follows;

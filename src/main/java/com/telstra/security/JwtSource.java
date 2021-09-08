@@ -31,13 +31,14 @@ public class JwtSource {
             InputStream resourceAsStream = getClass().getResourceAsStream("/springblog.jks");
             keyStore.load(resourceAsStream, "secret".toCharArray());
         } catch (KeyStoreException | CertificateException | NoSuchAlgorithmException | IOException e) {
-            throw new AuthenticationException("key not found",e);
+            throw new AuthenticationException("key not found", e);
         }
 
     }
 
     public String generateToken(Authentication authentication) {
         org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
+        System.out.println(principal.getUsername() + "----------------------------------in token");
         return Jwts.builder()
                 .setSubject(principal.getUsername())
                 .setIssuedAt(from(Instant.now()))

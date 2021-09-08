@@ -27,7 +27,7 @@ public class TagService {
         tag.setName(tagDto.getName());
         if (tagRepository.findByName(tagDto.getName()).isPresent()) {
             return tagRepository.findByName(tagDto.getName()).orElseThrow(
-                    ()-> new EntityNotFoundException("No tag found with name : "+tagDto.getName())
+                    () -> new EntityNotFoundException("No tag found with name : " + tagDto.getName())
             );
         }
         return tagRepository.save(tag);
@@ -42,7 +42,7 @@ public class TagService {
     @Transactional
     public Tag getTagById(Long id) {
         return tagRepository.findById(id).orElseThrow(
-                ()->new EntityNotFoundException("No tag found with id : "+id)
+                () -> new EntityNotFoundException("No tag found with id : " + id)
         );
     }
 }

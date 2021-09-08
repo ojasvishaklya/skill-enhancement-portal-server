@@ -23,12 +23,12 @@ public class AuthController {
 
     @PostMapping("/auth/signup")
     public ResponseEntity<String> signUp(@RequestBody RegisterRequest registerRequest) {
-        authService.signUp(registerRequest);
-        return new ResponseEntity<>("user registered successfully", HttpStatus.OK);
+        return new ResponseEntity<>(authService.signUp(registerRequest), HttpStatus.OK);
     }
 
     @PostMapping("/auth/signin")
     public SigninResponse signIn(@RequestBody SigninRequest signinRequest) {
+        System.out.println("in login----------------------");
         return authService.signIn(signinRequest);
     }
 

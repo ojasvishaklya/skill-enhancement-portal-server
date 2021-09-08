@@ -32,15 +32,15 @@ public class CommentService {
     @Autowired
     NotificationService notificationService;
 
-    String commentNotFound="No comment found with given id : ";
+    String commentNotFound = "No comment found with given id : ";
 
     public CommentResponse createComment(CommentRequest commentRequest) {
         Comment comment = new Comment();
         comment.setCreatedDate(Instant.now());
         comment.setUrl(commentRequest.getUrl());
         comment.setText(commentRequest.getText());
-        Optional<Question> tempQuestion=questionRepository.findById(Long.parseLong(commentRequest.getQ_id()));
-        if(tempQuestion.isPresent()){
+        Optional<Question> tempQuestion = questionRepository.findById(Long.parseLong(commentRequest.getQ_id()));
+        if (tempQuestion.isPresent()) {
             comment.setQuestion(tempQuestion.get());
         }
         comment.setUser(authService.getCurrentUser());
@@ -90,7 +90,7 @@ public class CommentService {
     }
 
     public String deleteComment(Long id) {
-        Comment c = commentRepository.findById(id).orElseThrow(()-> new RuntimeException(commentNotFound +id));
+        Comment c = commentRepository.findById(id).orElseThrow(() -> new RuntimeException(commentNotFound + id));
         if (c.getUser().getUserId().equals(authService.getCurrentUser().getUserId())) {
             return "you dont have the privledge to delete this answer";
         }
