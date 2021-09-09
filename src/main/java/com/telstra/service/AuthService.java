@@ -63,7 +63,8 @@ public class AuthService {
         String token = jwtSource.generateToken(authentication);
 
         System.out.println("4");
-        return new SigninResponse(signinRequest.getEmail(), token,
+        org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
+        return new SigninResponse(principal.getUsername(), token,
                 refreshTokenService.generateRefreshToken().getToken()
                 , Instant.now().plusMillis(jwtSource.getJwtExpirationInMillis()).toString());
 
