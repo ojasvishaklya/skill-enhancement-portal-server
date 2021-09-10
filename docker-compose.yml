@@ -1,0 +1,39 @@
+version: '3.3' # compose file version
+networks: # for creating network
+  skill-portal-bridge: # name of bridge it will auto matically choose subnet
+
+services:
+  skill-portal-server:
+    build: .
+    container_name: ZITNAUT
+    ports:
+      - '8080:8080'
+#    networks:
+#      - skill-portal-bridge
+    depends_on:
+      - skill-portal-db
+
+#    environment:
+    restart: always
+
+  skill-portal-db:
+    container_name: mysql-docker
+    image: mysql:latest
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: always
+    hostname: mysql-docker
+    environment:
+      MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: skill-enhancement-portal
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+#    ports:
+#      - '8080:8080'
+#    networks:
+#      - skill-portal-bridge
+
+
+
+volumes:
+  db_data: {}

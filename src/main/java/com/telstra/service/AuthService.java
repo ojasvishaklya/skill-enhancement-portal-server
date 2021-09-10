@@ -48,7 +48,6 @@ public class AuthService {
     @Transactional
     public SigninResponse signIn(SigninRequest signinRequest) {
 
-        System.out.println("1");
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         signinRequest.getEmail(),
@@ -56,13 +55,10 @@ public class AuthService {
                 )
         );
 
-        System.out.println("2");
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        System.out.println("3");
         String token = jwtSource.generateToken(authentication);
 
-        System.out.println("4");
         org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
         return new SigninResponse(principal.getUsername(), token,
                 refreshTokenService.generateRefreshToken().getToken()
