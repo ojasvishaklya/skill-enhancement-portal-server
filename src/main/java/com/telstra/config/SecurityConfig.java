@@ -38,7 +38,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/ques/search");
+        web.ignoring().antMatchers("/ques/search","/v2/api-docs","/swagger-ui.html","/webjars/*");
     }
 
     @Override
