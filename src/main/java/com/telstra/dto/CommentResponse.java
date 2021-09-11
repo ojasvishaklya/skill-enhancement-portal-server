@@ -11,10 +11,10 @@ public class CommentResponse {
     private Long id;
     private String text;
     private String url;
-    private String commentername;
     private String instant;
     private boolean selected;
     private int upvotes;
     private int downvotes;
     private String creator;
+    private String creatorId;
 }

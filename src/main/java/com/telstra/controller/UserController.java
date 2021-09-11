@@ -27,7 +27,7 @@ public class UserController {
         return userService.findUser(username);
     }
 
-    @GetMapping("/users/{id}/profile")
+    @GetMapping("/users/profile/{id}")
     public UserProfileResponse userProfile(@PathVariable Long id) {
         return userService.userProfile(id);
     }

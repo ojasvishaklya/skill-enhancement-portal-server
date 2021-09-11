@@ -2,11 +2,16 @@ package com.telstra.service;
 
 import com.telstra.dto.CommentResponse;
 import com.telstra.dto.QuestionResponse;
+import com.telstra.dto.UserResponse;
 import com.telstra.model.Comment;
+import com.telstra.model.Followers;
 import com.telstra.model.Question;
 import com.telstra.repository.CommentRepository;
+import com.telstra.repository.FollowersRepository;
 import com.telstra.repository.QuestionRepository;
+import com.telstra.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,7 +25,35 @@ public class GetterSource {
     Mapper mapper;
     @Autowired
     QuestionRepository questionRepository;
+    @Autowired
+    FollowersRepository followersRepository;
+    @Autowired
+    UserRepository userRepository;
 
+
+    //====================================Followers retriever=================================
+    public List<UserResponse> getUserFollowers(Long id) {
+        List<UserResponse> followedBy = new ArrayList<>();
+        List<Followers> followers = followersRepository.findAll();
+        for (Followers s : followers) {
+            if (s.getUserId().equals(id))
+                followedBy.add(mapper.mapUserMin(userRepository.findById(s.getFollowerId()).orElseThrow(
+                        () -> new UsernameNotFoundException("User not found")
+                )));
+        }
+        return followedBy;
+    }
+    public List<UserResponse> getUserFollowing(Long id) {
+        List<UserResponse> follows = new ArrayList<>();
+        List<Followers> followers = followersRepository.findAll();
+        for (Followers s : followers) {
+            if (s.getFollowerId().equals(id))
+                follows.add(mapper.mapUserMin(userRepository.findById(s.getUserId()).orElseThrow(
+                        () -> new UsernameNotFoundException("No such user found")
+                )));
+        }
+        return follows;
+    }
     //====================================Question retriever=================================
     //Returns all questions of one user
     public List<QuestionResponse> getUserQuestions(Long id) {

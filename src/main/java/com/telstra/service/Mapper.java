@@ -24,13 +24,14 @@ public class Mapper {
         questionResponse.setUpvotes(question.getUpVoteCount() == null ? 0 : question.getUpVoteCount());
         questionResponse.setId(question.getPostId());
         questionResponse.setCreator(question.getUser().getUsername());
+        questionResponse.setInstant(question.getCreatedDate().toString());
+        questionResponse.setCreatorId(question.getUser().getUserId().toString());
         return questionResponse;
     }
 
     public CommentResponse mapComment(Comment comment) {
 
         CommentResponse commentResponse = new CommentResponse();
-        commentResponse.setCommentername(comment.getUser().getUsername());
         commentResponse.setInstant(comment.getCreatedDate().toString());
         commentResponse.setText(comment.getText());
         commentResponse.setSelected(comment.isSelected());
@@ -38,6 +39,7 @@ public class Mapper {
         commentResponse.setUpvotes(comment.getUpVoteCount() == null ? 0 : comment.getUpVoteCount());
         commentResponse.setId(comment.getId());
         commentResponse.setCreator(comment.getUser().getUsername());
+        commentResponse.setCreatorId(comment.getUser().getUserId().toString());
         return commentResponse;
     }
 
@@ -45,6 +47,8 @@ public class Mapper {
         UserProfileResponse userProfileResponse = new UserProfileResponse();
         userProfileResponse.setCommentList(getterSource.getUserComments(user.getUserId()));
         userProfileResponse.setQuestionList(getterSource.getUserQuestions(user.getUserId()));
+        userProfileResponse.setFollowersList(getterSource.getUserFollowers(user.getUserId()));
+        userProfileResponse.setFollowingList(getterSource.getUserFollowing(user.getUserId()));
         userProfileResponse.setEmail(user.getEmail());
         userProfileResponse.setGithub(user.getGithub() == null ? "" : user.getGithub());
         userProfileResponse.setGithub(user.getLinkedin() == null ? "" : user.getLinkedin());

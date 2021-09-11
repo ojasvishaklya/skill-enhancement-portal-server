@@ -9,5 +9,4 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class SearchRequest {
     private String text;
-    private String tag;
 }

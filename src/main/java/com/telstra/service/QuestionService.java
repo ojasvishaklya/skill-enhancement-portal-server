@@ -105,12 +105,12 @@ public class QuestionService {
         Question question = questionRepository.findById(id).orElseThrow(
                 () -> new EntityNotFoundException(questionNotFound + id)
         );
-        if (question.getDownVoteCount() == null) {
-            question.setDownVoteCount(0);
+        if (question.getUpVoteCount() == null) {
+            question.setUpVoteCount(0);
         }
-        question.setDownVoteCount(question.getDownVoteCount() + 1);
+        question.setUpVoteCount(question.getUpVoteCount() - 1);
         questionRepository.save(question);
-        return "question with title" + question.getPostName() + "downvoted";
+        return "question with title" + question.getPostName() + " downvoted";
     }
 
     public String deleteQuestion(Long id) {
@@ -130,8 +130,6 @@ public class QuestionService {
         for (String s : splited) {
             searchQuery += s + "* ";
         }
-        searchQuery += searchRequest.getTag() + "* ";
-
         return questionRepository.searchQuestion(searchQuery);
     }
 }

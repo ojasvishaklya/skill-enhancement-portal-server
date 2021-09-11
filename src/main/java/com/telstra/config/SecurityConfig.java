@@ -38,7 +38,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/ques/search","/v2/api-docs","/swagger-ui.html","/webjars/*");
+        web.ignoring().antMatchers("/ques/search","/v2/api-docs","/swagger-ui.html");
     }
 
     @Override
@@ -47,7 +47,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
         http.cors().and()
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/auth/**")
+                .antMatchers("/auth/**","/users/profile/**","/ques/trending/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated();

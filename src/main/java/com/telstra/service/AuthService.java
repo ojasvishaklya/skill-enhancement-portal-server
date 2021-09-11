@@ -2,6 +2,7 @@ package com.telstra.service;
 
 
 import com.telstra.dto.*;
+import com.telstra.exceptions.UserNotFoundException;
 import com.telstra.model.User;
 import com.telstra.repository.UserRepository;
 import com.telstra.security.JwtSource;
@@ -32,15 +33,20 @@ public class AuthService {
 
     @Transactional
     public String signUp(RegisterRequest registerRequest) {
+
         if (userRepository.existsByEmail(registerRequest.getEmail())) {
             return "Email already exists";
         }
+
         User user = new User();
         user.setEmail(registerRequest.getEmail());
         user.setCreated(Instant.now());
         user.setUsername(registerRequest.getUsername());
         user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
         user.setEnabled(true);
+        user.setPoints(0L);
+        user.setGithub(registerRequest.getGithub());
+        user.setLinkedin(registerRequest.getLinkedin());
         userRepository.save(user);
         return "User Created Successfully";
     }
@@ -48,22 +54,31 @@ public class AuthService {
     @Transactional
     public SigninResponse signIn(SigninRequest signinRequest) {
 
-        Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        signinRequest.getEmail(),
-                        signinRequest.getPassword()
-                )
-        );
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            signinRequest.getEmail(),
+                            signinRequest.getPassword()
+                    )
+            );
+            System.out.println(authentication.isAuthenticated()+"============");
+            SecurityContextHolder.getContext().setAuthentication(authentication);
 
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+            String token = jwtSource.generateToken(authentication);
 
-        String token = jwtSource.generateToken(authentication);
+            org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
+            User u= userRepository.findByEmail(signinRequest.getEmail()).orElseThrow(()->{
+               return new UserNotFoundException("User not found");
+            });
+            return new SigninResponse(u.getUserId().toString(),u.getUsername(), token,
+                    refreshTokenService.generateRefreshToken().getToken()
+                    , Instant.now().plusMillis(jwtSource.getJwtExpirationInMillis()).toString());
+        }catch (Exception e){
+            System.out.println("e.getMessage()");
+        }
 
-        org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
-        return new SigninResponse(principal.getUsername(), token,
-                refreshTokenService.generateRefreshToken().getToken()
-                , Instant.now().plusMillis(jwtSource.getJwtExpirationInMillis()).toString());
 
+    return null;
     }
 
 

@@ -20,4 +20,6 @@ public class QuestionResponse {
     private int upvotes;
     private int downvotes;
     private String creator;
+    private String creatorId;
+    private String instant;
 }

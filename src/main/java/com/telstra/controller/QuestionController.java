@@ -22,7 +22,7 @@ public class QuestionController {
         return questionService.createQuestion(questionDto);
     }
 
-    @GetMapping("/ques")
+    @GetMapping("/ques/trending")
     public List<QuestionResponse> getQues() {
         return questionService.getQues();
     }

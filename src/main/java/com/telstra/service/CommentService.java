@@ -58,6 +58,9 @@ public class CommentService {
     public String upVote(Long id) {
         Comment comment = commentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException(commentNotFound + id));
+        if (comment.getUpVoteCount() == null) {
+            comment.setUpVoteCount(0);
+        }
         comment.setUpVoteCount(comment.getUpVoteCount() + 1);
         commentRepository.save(comment);
         return "question with text" + comment.getText() + "upvoted";
@@ -66,10 +69,10 @@ public class CommentService {
     public String downVote(Long id) {
         Comment comment = commentRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException(commentNotFound + id));
-        if (comment.getDownVoteCount() == null) {
-            comment.setDownVoteCount(0);
+        if (comment.getUpVoteCount() == null) {
+            comment.setUpVoteCount(0);
         }
-        comment.setDownVoteCount(comment.getDownVoteCount() + 1);
+        comment.setUpVoteCount(comment.getUpVoteCount() - 1);
         commentRepository.save(comment);
         return "question with text" + comment.getText() + "downvoted";
     }
