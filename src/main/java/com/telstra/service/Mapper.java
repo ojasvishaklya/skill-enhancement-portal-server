@@ -19,6 +19,7 @@ public class Mapper {
         QuestionResponse questionResponse = new QuestionResponse();
         questionResponse.setDescription(question.getDescription());
         questionResponse.setTag(question.getTag().getName());
+        questionResponse.setTagId(question.getTag().getId().toString());
         questionResponse.setPostName(question.getPostName());
         questionResponse.setDownvotes(question.getDownVoteCount() == null ? 0 : question.getDownVoteCount());
         questionResponse.setUpvotes(question.getUpVoteCount() == null ? 0 : question.getUpVoteCount());
@@ -64,6 +65,7 @@ public class Mapper {
         userResponse.setEmail(user.getEmail());
         userResponse.setName(user.getUsername());
         userResponse.setId(user.getUserId());
+        userResponse.setPoints(user.getPoints() == null ? "0" : user.getPoints().toString());
         return userResponse;
     }
 

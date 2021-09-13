@@ -1,11 +1,13 @@
 package com.telstra.service;
 
+import com.telstra.dto.UpdateProfileRequest;
 import com.telstra.dto.UserProfileResponse;
 import com.telstra.dto.UserResponse;
 import com.telstra.model.User;
 import com.telstra.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -22,6 +24,8 @@ public class UserService {
     GetterSource getterSource;
     @Autowired
     Mapper mapper;
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     public List<UserResponse> getAllUsers() {
         List<User> users = userRepository.findAll();
@@ -57,5 +61,34 @@ public class UserService {
         userRepository.save(u);
 
         return "User " + u.getUsername() + "'s points got increased by " + points;
+    }
+
+    public boolean updateUserProfile(UpdateProfileRequest updateProfileRequest) {
+        System.out.println(updateProfileRequest+"==========================================");
+
+        if(updateProfileRequest.getEmail()!=authService.getCurrentUser().getUsername()){
+            return false;
+        }
+        User u = userRepository.findByEmail(updateProfileRequest.getEmail()).orElseThrow(
+                () -> new UsernameNotFoundException("No user found with email : " + updateProfileRequest.getEmail())
+        );
+
+        if(updateProfileRequest.getUsername().length()!=0) {
+            u.setUsername(updateProfileRequest.getUsername());
+        }
+        if(updateProfileRequest.getLinkedin().length()!=0) {
+            u.setLinkedin(updateProfileRequest.getLinkedin());
+        }
+        if(updateProfileRequest.getGithub().length()!=0) {
+            u.setGithub(updateProfileRequest.getGithub());
+        }
+        if(updateProfileRequest.getN_password().length()!=0) {
+            String encoded= passwordEncoder.encode(updateProfileRequest.getE_password());
+            if(encoded==u.getPassword()) {
+                u.setPassword(encoded);
+            }else return false;
+        }
+
+        return true;
     }
 }

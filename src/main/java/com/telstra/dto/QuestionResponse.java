@@ -16,6 +16,7 @@ public class QuestionResponse {
     private String url;
     private String description;
     private String tag;
+    private String tagId;
     private List<CommentResponse> comments = new ArrayList<>();
     private int upvotes;
     private int downvotes;

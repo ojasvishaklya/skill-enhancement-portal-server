@@ -32,7 +32,7 @@ public class QuestionController {
         return questionService.getQuesById(id);
     }
 
-    @GetMapping("/ques/search")
+    @PostMapping("/ques/search")
     public List<Question> searchQuestion(@RequestBody SearchRequest searchRequest) {
         return questionService.searchQuestion(searchRequest);
     }

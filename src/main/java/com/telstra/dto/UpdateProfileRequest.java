@@ -8,10 +8,11 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserResponse {
-    private Long id;
-    private String name;
+public class UpdateProfileRequest {
+    private String username;
+    private String e_password;
+    private String n_password;
+    private String linkedin;
+    private String github;
     private String email;
-    private String points;
-
 }

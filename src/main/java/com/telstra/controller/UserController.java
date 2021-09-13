@@ -1,13 +1,14 @@
 package com.telstra.controller;
 
 
+import com.telstra.dto.UpdateProfileRequest;
 import com.telstra.dto.UserProfileResponse;
 import com.telstra.dto.UserResponse;
 import com.telstra.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -30,6 +31,16 @@ public class UserController {
     @GetMapping("/users/profile/{id}")
     public UserProfileResponse userProfile(@PathVariable Long id) {
         return userService.userProfile(id);
+    }
+
+    @PostMapping("/users/update/")
+    public ResponseEntity<String> updateUserProfile(@PathVariable UpdateProfileRequest updateProfileRequest) {
+        System.out.println("in controller===============================================");
+
+        return userService.updateUserProfile(updateProfileRequest) ?
+                ResponseEntity.status(HttpStatus.OK).body("Profile updated successfully")
+                : ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Incorrect Credentials")
+                ;
     }
 
 }

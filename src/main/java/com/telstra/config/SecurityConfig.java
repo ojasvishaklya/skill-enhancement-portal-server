@@ -1,7 +1,7 @@
 package com.telstra.config;
 
+
 import com.telstra.security.JwtAuthenticationFilter;
-import com.telstra.service.UserDetailsServiceImplementation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
