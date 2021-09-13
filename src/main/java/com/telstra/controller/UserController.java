@@ -23,8 +23,8 @@ public class UserController {
         return userService.getAllUsers();
     }
 
-    @GetMapping("/users/{username}")
-    public UserProfileResponse findUser(@PathVariable String username) {
+    @GetMapping("/users/search/{username}")
+    public List<UserResponse> findUser(@PathVariable String username) {
         return userService.findUser(username);
     }
 

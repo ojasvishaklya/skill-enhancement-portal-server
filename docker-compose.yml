@@ -3,22 +3,23 @@ networks: # for creating network
   skill-portal-bridge: # name of bridge it will auto matically choose subnet
 
 services:
-#  skill-portal-server:
-#    build: .
-#    container_name: ZITNAUT
-#    ports:
-#      - "9090:8080"
-#    networks:
-#      - skill-portal-bridge
-#    depends_on:
-#      - skill-portal-db
-#
-#    environment:
-#      MYSQL_USER: admin
-#      MYSQL_PASSWORD: admin
-#      MYSQL_HOST: mysql-docker
-#      MYSQL_PORT: 3306
-#    restart: always
+  skill-portal-server:
+    build: .
+    container_name: ZITNAUT
+    ports:
+      - "9090:8080"
+    networks:
+      - skill-portal-bridge
+    depends_on:
+      - skill-portal-db
+
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-docker:3306/skill-enhancement-portal?autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin
+      MYSQL_HOST: mysql-docker
+      MYSQL_PORT: 3306
+    restart: always
 
   skill-portal-db:
     container_name: mysql-docker
@@ -28,6 +29,7 @@ services:
     restart: always
     hostname: mysql-docker
     environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-docker:3306/skill-enhancement-portal?autoReconnect=true&useSSL=false&allowPublicKeyRetrieval=true
       MYSQL_ROOT_PASSWORD: admin
       MYSQL_DATABASE: skill-enhancement-portal
       MYSQL_USER: admin
@@ -41,3 +43,4 @@ services:
 
 volumes:
   db_data: {}
+

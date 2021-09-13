@@ -21,7 +21,8 @@ public class SpamService {
     AuthService authService;
     @Autowired
     SpamRepository spamRepository;
-
+    @Autowired
+    GetterSource getterSource;
     public String reportSpam(Long s_id) {
         Spam spam = new Spam();
         spam.setS_id(s_id);
@@ -32,18 +33,6 @@ public class SpamService {
     }
 
     public List<Long> getSpam(Long id) {
-        List<Long> spamedBy = new ArrayList<>();
-        List<Spam> spams = spamRepository.findAll();
-        for (Spam s : spams) {
-            if (s.getS_id().equals(id))
-                spamedBy.add(s.getU_id());
-        }
-        if (spamedBy.size() >= 20) {
-            User u = userRepository.findById(id).orElseThrow(
-                    () -> new UsernameNotFoundException("No user found with id : " + id)
-            );
-            u.setEnabled(false);
-        }
-        return spamedBy;
+        return getterSource.getUserSpamList(id);
     }
 }

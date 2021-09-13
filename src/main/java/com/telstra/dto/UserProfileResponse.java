@@ -18,6 +18,7 @@ public class UserProfileResponse {
     private List<CommentResponse> commentList = new ArrayList<>();
     private List<UserResponse> followingList = new ArrayList<>();
     private List<UserResponse> followersList = new ArrayList<>();
+    private List<Long> spamList = new ArrayList<>();
 
     private Long points;
     private String name;

@@ -47,7 +47,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
         http.cors().and()
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/auth/**","/users/profile/**","/ques/trending/**")
+                .antMatchers("/auth/**","/users/profile/**","/ques/trending/**","/users/search/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated();

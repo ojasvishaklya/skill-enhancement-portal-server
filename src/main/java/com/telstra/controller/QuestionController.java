@@ -4,7 +4,6 @@ package com.telstra.controller;
 import com.telstra.dto.QuestionRequest;
 import com.telstra.dto.QuestionResponse;
 import com.telstra.dto.SearchRequest;
-import com.telstra.model.Question;
 import com.telstra.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -33,7 +32,7 @@ public class QuestionController {
     }
 
     @PostMapping("/ques/search")
-    public List<Question> searchQuestion(@RequestBody SearchRequest searchRequest) {
+    public List<QuestionResponse> searchQuestion(@RequestBody SearchRequest searchRequest) {
         return questionService.searchQuestion(searchRequest);
     }
 

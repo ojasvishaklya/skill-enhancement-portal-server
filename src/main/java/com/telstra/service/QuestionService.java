@@ -4,10 +4,12 @@ import com.telstra.dto.QuestionRequest;
 import com.telstra.dto.QuestionResponse;
 import com.telstra.dto.SearchRequest;
 import com.telstra.exceptions.EntityNotFoundException;
+import com.telstra.model.Comment;
 import com.telstra.model.Question;
 import com.telstra.model.Tag;
 import com.telstra.repository.CommentRepository;
 import com.telstra.repository.QuestionRepository;
+import com.telstra.repository.TagRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,6 +39,8 @@ public class QuestionService {
     GetterSource getterSource;
     @Autowired
     UserService userService;
+    @Autowired
+    TagRepository tagRepository;
 
     String questionNotFound = "No question found with that id : ";
 
@@ -120,16 +124,39 @@ public class QuestionService {
         if (!q.getUser().getUserId().equals(authService.getCurrentUser().getUserId())) {
             return "you dont have the privledge to delete this question";
         }
+        List<Comment>commentList=commentRepository.findAll();
+
+        for(Comment c : commentList){
+            if(c.getQuestion().getPostId()==id){
+                commentRepository.deleteById(c.getId());
+            }
+        }
+        List<Tag>tagList=tagRepository.findAll();
+
+//        for(Tag c : tagList){
+//            if(c. ==id){
+//                commentRepository.deleteById(c.getQuestion().getPostId());
+//            }
+//        }
         questionRepository.deleteById(q.getPostId());
         return "This question is deleted by " + authService.getCurrentUser().getUsername();
     }
 
-    public List<Question> searchQuestion(SearchRequest searchRequest) {
+    public List<QuestionResponse> searchQuestion(SearchRequest searchRequest) {
         String[] splited = searchRequest.getText().split("\\s+");
         String searchQuery = "";
         for (String s : splited) {
             searchQuery += s + "* ";
         }
-        return questionRepository.searchQuestion(searchQuery);
+        List<Question> qList = questionRepository.searchQuestion(searchQuery);
+        List<QuestionResponse> sorted = new ArrayList<>();
+
+
+
+        for (int i = 0; i < Math.min(qList.size(), 10); i++) {
+            sorted.add(mapper.mapQuestion(qList.get(i)));
+            sorted.get(i).setComments(getterSource.getQuestionComments(qList.get(i).getPostId()));
+        }
+        return sorted;
     }
 }

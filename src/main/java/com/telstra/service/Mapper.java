@@ -41,6 +41,7 @@ public class Mapper {
         commentResponse.setId(comment.getId());
         commentResponse.setCreator(comment.getUser().getUsername());
         commentResponse.setCreatorId(comment.getUser().getUserId().toString());
+        commentResponse.setUrl(comment.getUrl());
         return commentResponse;
     }
 
@@ -50,6 +51,7 @@ public class Mapper {
         userProfileResponse.setQuestionList(getterSource.getUserQuestions(user.getUserId()));
         userProfileResponse.setFollowersList(getterSource.getUserFollowers(user.getUserId()));
         userProfileResponse.setFollowingList(getterSource.getUserFollowing(user.getUserId()));
+        userProfileResponse.setSpamList(getterSource.getUserSpamList(user.getUserId()));
         userProfileResponse.setEmail(user.getEmail());
         userProfileResponse.setGithub(user.getGithub() == null ? "" : user.getGithub());
         userProfileResponse.setGithub(user.getLinkedin() == null ? "" : user.getLinkedin());

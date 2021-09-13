@@ -1,8 +1,10 @@
 package com.telstra.service;
 
+import com.telstra.dto.QuestionResponse;
 import com.telstra.dto.UpdateProfileRequest;
 import com.telstra.dto.UserProfileResponse;
 import com.telstra.dto.UserResponse;
+import com.telstra.model.Question;
 import com.telstra.model.User;
 import com.telstra.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,10 +37,23 @@ public class UserService {
         return userResponses;
     }
 
-    public UserProfileResponse findUser(String username) {
-        return mapper.mapUser(userRepository.findByUsername(username).orElseThrow(
-                () -> new UsernameNotFoundException("No user found with username : " + username)
-        ));
+    public List<UserResponse> findUser(String searchRequest) {
+
+
+        String[] splited = searchRequest.split("\\s+");
+        String searchQuery = "";
+        for (String s : splited) {
+            searchQuery += s + "* ";
+        }
+        List<User> uList = userRepository.findByUsername(searchQuery);
+        List<UserResponse> sorted = new ArrayList<>();
+
+
+
+        for (int i = 0; i < Math.min(uList.size(), 10); i++) {
+            sorted.add(mapper.mapUserMin(uList.get(i)));
+        }
+        return  sorted;
     }
 
 

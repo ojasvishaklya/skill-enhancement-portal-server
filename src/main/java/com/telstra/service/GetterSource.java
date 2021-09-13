@@ -3,13 +3,8 @@ package com.telstra.service;
 import com.telstra.dto.CommentResponse;
 import com.telstra.dto.QuestionResponse;
 import com.telstra.dto.UserResponse;
-import com.telstra.model.Comment;
-import com.telstra.model.Followers;
-import com.telstra.model.Question;
-import com.telstra.repository.CommentRepository;
-import com.telstra.repository.FollowersRepository;
-import com.telstra.repository.QuestionRepository;
-import com.telstra.repository.UserRepository;
+import com.telstra.model.*;
+import com.telstra.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -29,6 +24,8 @@ public class GetterSource {
     FollowersRepository followersRepository;
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    SpamRepository spamRepository;
 
 
     //====================================Followers retriever=================================
@@ -129,5 +126,22 @@ public class GetterSource {
             }
         }
         return myComments;
+    }
+
+    public List<Long> getUserSpamList(Long id) {
+
+        List<Long> spamedBy = new ArrayList<>();
+        List<Spam> spams = spamRepository.findAll();
+        for (Spam s : spams) {
+            if (s.getS_id().equals(id))
+                spamedBy.add(s.getU_id());
+        }
+        if (spamedBy.size() >= 20) {
+            User u = userRepository.findById(id).orElseThrow(
+                    () -> new UsernameNotFoundException("No user found with id : " + id)
+            );
+            u.setEnabled(false);
+        }
+        return spamedBy;
     }
 }
