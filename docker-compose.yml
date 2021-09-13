@@ -39,7 +39,15 @@ services:
     networks:
       - skill-portal-bridge
 
+  skill-portal-client: # name of app
+    container_name: CLIENT
+    build: ../skill-enhancement-portal-client/
 
+    ports:
+      - '80:80'
+    networks: # using network
+      - skill-portal-bridge
+    restart: always
 
 volumes:
   db_data: {}
