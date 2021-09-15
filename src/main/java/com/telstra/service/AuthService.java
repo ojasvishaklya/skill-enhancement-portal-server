@@ -74,8 +74,9 @@ public class AuthService {
                     refreshTokenService.generateRefreshToken().getToken()
                     , Instant.now().plusMillis(jwtSource.getJwtExpirationInMillis()).toString()));
         } catch (Exception e) {
+
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 
     }
 
