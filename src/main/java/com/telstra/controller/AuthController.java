@@ -27,9 +27,10 @@ public class AuthController {
     }
 
     @PostMapping("/auth/signin")
-    public SigninResponse signIn(@RequestBody SigninRequest signinRequest) {
-        System.out.println("in login----------------------");
+    public ResponseEntity<SigninResponse> signIn(@RequestBody SigninRequest signinRequest) {
+
         return authService.signIn(signinRequest);
+
     }
 
     @PostMapping("/auth/refresh/token")

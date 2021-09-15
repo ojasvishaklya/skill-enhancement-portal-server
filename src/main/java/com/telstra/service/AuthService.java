@@ -7,6 +7,8 @@ import com.telstra.model.User;
 import com.telstra.repository.UserRepository;
 import com.telstra.security.JwtSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -52,7 +54,7 @@ public class AuthService {
     }
 
     @Transactional
-    public SigninResponse signIn(SigninRequest signinRequest) {
+    public ResponseEntity<SigninResponse> signIn(SigninRequest signinRequest) {
 
         try {
             Authentication authentication = authenticationManager.authenticate(
@@ -61,24 +63,20 @@ public class AuthService {
                             signinRequest.getPassword()
                     )
             );
-            System.out.println(authentication.isAuthenticated()+"============");
             SecurityContextHolder.getContext().setAuthentication(authentication);
 
             String token = jwtSource.generateToken(authentication);
 
-            org.springframework.security.core.userdetails.User principal = (org.springframework.security.core.userdetails.User) authentication.getPrincipal();
-            User u= userRepository.findByEmail(signinRequest.getEmail()).orElseThrow(()->{
-               return new UserNotFoundException("User not found");
+            User u = userRepository.findByEmail(signinRequest.getEmail()).orElseThrow(() -> {
+                return new UserNotFoundException("User not found");
             });
-            return new SigninResponse(u.getUserId().toString(),u.getUsername(), token,
+            return ResponseEntity.status(HttpStatus.OK).body(new SigninResponse(u.getUserId().toString(), u.getUsername(), token,
                     refreshTokenService.generateRefreshToken().getToken()
-                    , Instant.now().plusMillis(jwtSource.getJwtExpirationInMillis()).toString());
-        }catch (Exception e){
-            System.out.println("e.getMessage()");
+                    , Instant.now().plusMillis(jwtSource.getJwtExpirationInMillis()).toString()));
+        } catch (Exception e) {
         }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
 
-
-    return null;
     }
 
 

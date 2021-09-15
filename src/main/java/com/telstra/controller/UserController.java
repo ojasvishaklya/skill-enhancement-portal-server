@@ -33,9 +33,8 @@ public class UserController {
         return userService.userProfile(id);
     }
 
-    @PostMapping("/users/update/")
-    public ResponseEntity<String> updateUserProfile(@PathVariable UpdateProfileRequest updateProfileRequest) {
-        System.out.println("in controller===============================================");
+    @PutMapping("/users/update/")
+    public ResponseEntity<String> updateUserProfile(@RequestBody UpdateProfileRequest updateProfileRequest) {
 
         return userService.updateUserProfile(updateProfileRequest) ?
                 ResponseEntity.status(HttpStatus.OK).body("Profile updated successfully")

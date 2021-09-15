@@ -124,14 +124,14 @@ public class QuestionService {
         if (!q.getUser().getUserId().equals(authService.getCurrentUser().getUserId())) {
             return "you dont have the privledge to delete this question";
         }
-        List<Comment>commentList=commentRepository.findAll();
+        List<Comment> commentList = commentRepository.findAll();
 
-        for(Comment c : commentList){
-            if(c.getQuestion().getPostId()==id){
+        for (Comment c : commentList) {
+            if (c.getQuestion().getPostId().equals(id)) {
                 commentRepository.deleteById(c.getId());
             }
         }
-        List<Tag>tagList=tagRepository.findAll();
+        List<Tag> tagList = tagRepository.findAll();
 
 //        for(Tag c : tagList){
 //            if(c. ==id){
@@ -150,7 +150,6 @@ public class QuestionService {
         }
         List<Question> qList = questionRepository.searchQuestion(searchQuery);
         List<QuestionResponse> sorted = new ArrayList<>();
-
 
 
         for (int i = 0; i < Math.min(qList.size(), 10); i++) {

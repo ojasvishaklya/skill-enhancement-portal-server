@@ -40,6 +40,7 @@ public class GetterSource {
         }
         return followedBy;
     }
+
     public List<UserResponse> getUserFollowing(Long id) {
         List<UserResponse> follows = new ArrayList<>();
         List<Followers> followers = followersRepository.findAll();
@@ -51,6 +52,7 @@ public class GetterSource {
         }
         return follows;
     }
+
     //====================================Question retriever=================================
     //Returns all questions of one user
     public List<QuestionResponse> getUserQuestions(Long id) {

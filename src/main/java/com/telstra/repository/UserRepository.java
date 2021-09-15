@@ -1,6 +1,5 @@
 package com.telstra.repository;
 
-import com.telstra.model.Question;
 import com.telstra.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

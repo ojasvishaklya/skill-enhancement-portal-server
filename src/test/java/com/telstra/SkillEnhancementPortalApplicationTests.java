@@ -1,22 +1,10 @@
 package com.telstra;
 
-import com.telstra.model.Question;
-import com.telstra.model.Tag;
-import com.telstra.model.User;
-import com.telstra.repository.QuestionRepository;
-import com.telstra.repository.TagRepository;
 import com.telstra.repository.UserRepository;
 import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @SpringBootTest
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)

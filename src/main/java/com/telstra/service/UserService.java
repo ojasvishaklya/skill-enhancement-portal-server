@@ -1,10 +1,8 @@
 package com.telstra.service;
 
-import com.telstra.dto.QuestionResponse;
 import com.telstra.dto.UpdateProfileRequest;
 import com.telstra.dto.UserProfileResponse;
 import com.telstra.dto.UserResponse;
-import com.telstra.model.Question;
 import com.telstra.model.User;
 import com.telstra.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,11 +47,10 @@ public class UserService {
         List<UserResponse> sorted = new ArrayList<>();
 
 
-
         for (int i = 0; i < Math.min(uList.size(), 10); i++) {
             sorted.add(mapper.mapUserMin(uList.get(i)));
         }
-        return  sorted;
+        return sorted;
     }
 
 
@@ -79,30 +76,31 @@ public class UserService {
     }
 
     public boolean updateUserProfile(UpdateProfileRequest updateProfileRequest) {
-        System.out.println(updateProfileRequest+"==========================================");
 
-        if(updateProfileRequest.getEmail()!=authService.getCurrentUser().getUsername()){
+        if (!updateProfileRequest.getEmail().equals(authService.getCurrentUser().getEmail())) {
             return false;
         }
         User u = userRepository.findByEmail(updateProfileRequest.getEmail()).orElseThrow(
                 () -> new UsernameNotFoundException("No user found with email : " + updateProfileRequest.getEmail())
         );
 
-        if(updateProfileRequest.getUsername().length()!=0) {
+        if (updateProfileRequest.getUsername() != null && updateProfileRequest.getUsername().length() != 0) {
             u.setUsername(updateProfileRequest.getUsername());
         }
-        if(updateProfileRequest.getLinkedin().length()!=0) {
+        if (updateProfileRequest.getLinkedin() != null && updateProfileRequest.getLinkedin().length() != 0) {
             u.setLinkedin(updateProfileRequest.getLinkedin());
         }
-        if(updateProfileRequest.getGithub().length()!=0) {
+        if (updateProfileRequest.getGithub() != null && updateProfileRequest.getGithub().length() != 0) {
             u.setGithub(updateProfileRequest.getGithub());
         }
-        if(updateProfileRequest.getN_password().length()!=0) {
-            String encoded= passwordEncoder.encode(updateProfileRequest.getE_password());
-            if(encoded==u.getPassword()) {
-                u.setPassword(encoded);
-            }else return false;
+
+        if (updateProfileRequest.getN_password() != null && updateProfileRequest.getN_password().length() != 0) {
+
+            if (passwordEncoder.matches(updateProfileRequest.getE_password(), u.getPassword())) {
+                u.setPassword(passwordEncoder.encode(updateProfileRequest.getN_password()));
+            } else return false;
         }
+        userRepository.save(u);
 
         return true;
     }

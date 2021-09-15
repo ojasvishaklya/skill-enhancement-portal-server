@@ -23,7 +23,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
         securedEnabled = true,
         jsr250Enabled = true,
         prePostEnabled = true
-)public class SecurityConfig extends WebSecurityConfigurerAdapter {
+)
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     UserDetailsService userDetailsService;
@@ -38,7 +39,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/ques/search","/v2/api-docs","/swagger-ui.html");
+        web.ignoring().antMatchers("/ques/search", "/v2/api-docs", "/swagger-ui.html");
     }
 
     @Override
@@ -47,7 +48,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
         http.cors().and()
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/auth/**","/users/profile/**","/ques/trending/**","/users/search/**")
+                .antMatchers("/auth/**", "/users/profile/**", "/ques/trending/**", "/users/search/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated();

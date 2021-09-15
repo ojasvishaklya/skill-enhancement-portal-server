@@ -35,7 +35,6 @@ public class CommentService {
     String commentNotFound = "No comment found with given id : ";
 
     public CommentResponse createComment(CommentRequest commentRequest) {
-        System.out.println(commentRequest+"=======================================");
         Comment comment = new Comment();
         comment.setCreatedDate(Instant.now());
         comment.setUrl(commentRequest.getUrl());
