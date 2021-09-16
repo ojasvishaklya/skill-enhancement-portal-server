@@ -41,7 +41,15 @@ public class NotificationService {
             if (n.getUserId().equals(id))
                 myNotifications.add(mapper.mapNotification(n));
         }
-        return myNotifications;
+        myNotifications.sort((a, b) -> {
+            return b.getInstant().compareTo(a.getInstant());
+        });
+        List<NotificationResponse> latestNotifications = new ArrayList<>();
+
+        for(int i=0;i<Math.min(myNotifications.size(),5);i++){
+            latestNotifications.add(myNotifications.get(i));
+        }
+        return latestNotifications;
     }
 
     public void deleteNotification(Long id) {
