@@ -26,6 +26,11 @@ public class QuestionController {
         return questionService.getQues();
     }
 
+    @GetMapping("/ques/feed/{id}")
+    public List<QuestionResponse> getQFeed(@PathVariable Long id) {
+        return questionService.getFeed(id);
+    }
+
     @GetMapping("/ques/{id}")
     public QuestionResponse getQuesById(@PathVariable Long id) {
         return questionService.getQuesById(id);

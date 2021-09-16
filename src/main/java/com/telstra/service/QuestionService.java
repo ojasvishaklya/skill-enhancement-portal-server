@@ -3,6 +3,7 @@ package com.telstra.service;
 import com.telstra.dto.QuestionRequest;
 import com.telstra.dto.QuestionResponse;
 import com.telstra.dto.SearchRequest;
+import com.telstra.dto.UserResponse;
 import com.telstra.exceptions.EntityNotFoundException;
 import com.telstra.model.Comment;
 import com.telstra.model.Question;
@@ -158,4 +159,20 @@ public class QuestionService {
         }
         return sorted;
     }
+
+    public List<QuestionResponse> getFeed(Long id) {
+        List<UserResponse> followers = getterSource.getUserFollowing(id);
+        List<QuestionResponse> result=new ArrayList<>();
+        for(UserResponse user : followers) {
+            List<QuestionResponse> questions = getterSource.getUserQuestions(user.getId());
+            for(QuestionResponse q : questions) {
+                result.add(q);
+            }
+        }
+        result.sort((a, b) -> {
+            return b.getInstant().compareTo(a.getInstant());
+        });
+        return  result;
+    }
+
 }
