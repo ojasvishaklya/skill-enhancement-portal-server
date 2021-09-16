@@ -37,7 +37,7 @@ public class AuthService {
     public String signUp(RegisterRequest registerRequest) {
 
         if (userRepository.existsByEmail(registerRequest.getEmail())) {
-            return "Email already exists";
+            return "exists";
         }
 
         User user = new User();
@@ -50,7 +50,7 @@ public class AuthService {
         user.setGithub(registerRequest.getGithub());
         user.setLinkedin(registerRequest.getLinkedin());
         userRepository.save(user);
-        return "User Created Successfully";
+        return "success";
     }
 
     @Transactional
